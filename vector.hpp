@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 12:00:51 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/11 18:11:07 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/12 17:56:11 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,16 @@ namespace ft
 		typedef ptrdiff_t										difference_type;
 	private:
 			pointer _array;
+	protected:
+		vectorIterator(pointer ptr):
+			_array(ptr)
+		{}
 	public:
 
 		vectorIterator(void):
 			_array(0)
 		{}
-		vectorIterator(pointer ptr):
-			_array(ptr)
-		{}
+
 
 		vectorIterator(iterator const &copy)
 		{
@@ -106,6 +108,13 @@ namespace ft
 			return cpy;
 		}
 
+		vectorIterator &operator+=(difference_type n)
+		{
+			_array += n;
+			return *this;
+		}
+
+
 		vectorIterator &operator--()
 		{
 			--_array;
@@ -119,46 +128,32 @@ namespace ft
 			return cpy;
 		}
 
-		vectorIterator &operator+=(int n)
-		{
-			_array += n;
-			return *this;
-		}
-
-		vectorIterator operator+(int n) const
-		{
-			vectorIterator cpy(*this);
-
-			return 	cpy += n;
-		}
-
-		vectorIterator &operator-=(int n)
+		vectorIterator &operator-=(difference_type n)
 		{
 			_array -= n;
 			return *this;
 		}
 
-		vectorIterator operator-(int n) const
+
+
+
+		vectorIterator operator+(difference_type n) const
+		{
+			vectorIterator cpy(*this);
+			return 	cpy += n;
+		}
+
+		vectorIterator operator-(difference_type n) const
 		{
 			vectorIterator cpy(*this);
 
 			return 	cpy -= n;
 		}
 
-		difference_type operator-(vectorIterator const &x) const
+		difference_type operator-(vectorIterator<T, true> const &x) const
 		{
 			return _array - x._array;
 		}
-		//
-		// vectorIterator operator+(difference_type value)
-		// {
-		// 	return vectorIterator(_array + value);
-		// }
-		//
-		// vectorIterator operator-(difference_type value)
-		// {
-		// 	return vectorIterator(_array - value);
-		// }
 
 		friend vectorIterator operator+(difference_type value, const vectorIterator &x)
 		{
@@ -166,32 +161,35 @@ namespace ft
 			return tmp += value;
 		}
 
-		bool operator==(const vectorIterator &rhs)
-		{
-			return _array == rhs._array;
-		}
-		bool operator!=(const vectorIterator &rhs)
-		{
-			return _array != rhs._array;
-		}
-		bool operator<(const vectorIterator &rhs)
-		{
-			return _array < rhs._array;
-		}
-		bool operator<=(const vectorIterator &rhs)
-		{
-			return _array <= rhs._array;
-		}
-		bool operator>(const vectorIterator &rhs)
-		{
-			return _array > rhs._array;
-		}
-		bool operator>=(const vectorIterator &rhs)
-		{
-			return _array >= rhs._array;
-		}
+		// bool operator==(const vectorIterator &rhs)
+		// {
+		// 	return _array == rhs._array;
+		// }
+		// bool operator!=(const vectorIterator &rhs)
+		// {
+		// 	return _array != rhs._array;
+		// }
+		// bool operator<(const vectorIterator &rhs)
+		// {
+		// 	return _array < rhs._array;
+		// }
+		// bool operator<=(const vectorIterator &rhs)
+		// {
+		// 	return _array <= rhs._array;
+		// }
+		// bool operator>(const vectorIterator &rhs)
+		// {
+		// 	return _array > rhs._array;
+		// }
+		// bool operator>=(const vectorIterator &rhs)
+		// {
+		// 	return _array >= rhs._array;
+		// }
 		template <class, bool>
 		friend class vectorIterator;
+		template <class, class>
+		friend class vector;
+
 
 		friend bool operator==(const vectorIterator &lhs, const vectorIterator &rhs)
 		{
@@ -223,14 +221,20 @@ namespace ft
 	class reverseVectorIterator
 	{
 	public:
-		typedef Iterator iterator_type;
-		typedef typename Iterator::value_type value_type;
-		typedef typename Iterator::pointer pointer;
-		typedef typename Iterator::reference reference;
+		typedef Iterator 						iterator_type;
+		typedef typename Iterator::value_type	value_type;
+		typedef typename Iterator::pointer 		pointer;
+		typedef typename Iterator::reference 	reference;
+		typedef ptrdiff_t						difference_type;
+		typedef reverseVectorIterator			reverse_iterator;
 	private:
 			Iterator _base;
-			reverseVectorIterator();
+
 	public:
+		reverseVectorIterator():
+		_base()
+		{
+		}
 		reverseVectorIterator(Iterator base):
 			_base(base)
 			{}
@@ -255,11 +259,155 @@ namespace ft
 
 		Iterator base() const
 		{
-			Iterator cpy(_base);
-			return cpy;
+			return _base;
+		}
+
+		reference operator*() const
+		{
+			return (--Iterator(_base)).operator*();
+		}
+
+		pointer operator->() const {
+		  return &(operator*());
+		}
+
+		reference operator[] (difference_type n) const
+		{
+			return base()[-n-1];
+		}
+
+
+		reverse_iterator operator+ (difference_type n) const
+		{
+			return 	reverse_iterator(_base.operator-(n));
+		}
+
+
+		reverseVectorIterator &operator++()
+		{
+			--_base;
+			return *this;
+		}
+
+		reverseVectorIterator operator++(int)
+		{
+			reverse_iterator temp = *this;
+		    ++(*this);
+		    return temp;
+		}
+
+		reverseVectorIterator &operator+=(difference_type n)
+		{
+			_base.operator-=(n);
+			return *this;
+		}
+
+		reverse_iterator operator- (difference_type n) const
+		{
+			return 	reverse_iterator(_base.operator+(n));
+		}
+
+		reverse_iterator& operator--()
+		{
+			++_base;
+			return *this;
+		}
+
+		reverse_iterator  operator--(int)
+		{
+			reverse_iterator temp = *this;
+			--(*this);
+			return temp;
+		}
+
+		reverse_iterator& operator-= (difference_type n)
+		{
+			_base.operator+=(n);
+			return *this;
+		}
+
+		friend reverse_iterator operator+(difference_type n, const reverse_iterator& rev_it)
+		{
+			return rev_it + n;
+		}
+
+		// friend reverseVectorIterator operator+(difference_type value, const reverseVectorIterator &x)
+		// {
+		// 	reverseVectorIterator tmp(x);
+		// 	return tmp += value;
+		// }
+
+		// bool operator==(const reverseVectorIterator &rhs)
+		// {
+		// 	return _base == rhs._base;
+		// }
+		// bool operator!=(const reverseVectorIterator &rhs)
+		// {
+		// 	return _base != rhs._base;
+		// }
+		// bool operator<(const reverseVectorIterator &rhs)
+		// {
+		// 	return _base < rhs._base;
+		// }
+		// bool operator<=(const reverseVectorIterator &rhs)
+		// {
+		// 	return _base <= rhs._base;
+		// }
+		// bool operator>(const reverseVectorIterator &rhs)
+		// {
+		// 	return _base > rhs._base;
+		// }
+		// bool operator>=(const reverseVectorIterator &rhs)
+		// {
+		// 	return _base >= rhs._base;
+		// }
+
+		template <class>
+		friend class reverseVectorIterator;
+		template <class, bool>
+		friend class vectorIterator;
+		template <class U, class V>
+		friend  ptrdiff_t operator- (const reverseVectorIterator<U>& lhs, const reverseVectorIterator<V>& rhs);
+
+		template <class it>
+		friend bool operator== (const reverse_iterator& lhs, const reverseVectorIterator<it>& rhs)
+		{
+			return lhs._base == rhs._base;
+		}
+		template <class it>
+		friend bool operator!=(const reverseVectorIterator &lhs, const reverseVectorIterator<it> &rhs)
+		{
+			return lhs._base != rhs._base;
+		}
+		template <class it>
+		friend bool operator<(const reverseVectorIterator &lhs, const reverseVectorIterator<it> &rhs)
+		{
+			return lhs._base > rhs._base;
+		}
+		template <class it>
+		friend bool operator<=(const reverseVectorIterator &lhs, const reverseVectorIterator<it> &rhs)
+		{
+			return lhs._base >= rhs._base;
+		}
+		template <class it>
+		friend bool operator>(const reverseVectorIterator &lhs, const reverseVectorIterator<it> &rhs)
+		{
+			return lhs._base < rhs._base;
+		}
+		template <class it>
+		friend bool operator>=(const reverseVectorIterator &lhs, const reverseVectorIterator<it> &rhs)
+		{
+			return lhs._base <= rhs._base;
 		}
 	};
 
+	template <class U, class V>
+	ptrdiff_t operator-(
+	    const reverseVectorIterator<U>& lhs,
+	    const reverseVectorIterator<V>& rhs)
+		{
+			return rhs._base - lhs._base;
+		}
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
@@ -368,6 +516,26 @@ namespace ft
 		const_iterator end() const
 		{
 			return const_iterator(&_array[_size]);
+		}
+
+		reverse_iterator	rbegin()
+		{
+			return reverse_iterator(end());
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(end());
+		}
+
+		reverse_iterator	rend()
+		{
+			return reverse_iterator(begin());
+		}
+
+		const_iterator rend() const
+		{
+			return const_iterator(begin());
 		}
 
 		size_type size() const
