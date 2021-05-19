@@ -5,6 +5,14 @@
 
 namespace ft
 {
+	template <bool, class IsTrue = void>
+	struct enable_if;
+
+	template <class IsTrue>
+	struct enable_if<true, IsTrue> {
+		typedef IsTrue type;
+	};
+
 	template <bool flag, class IsTrue, class IsFalse>
 	struct choose;
 
@@ -18,7 +26,70 @@ namespace ft
 	   typedef IsFalse type;
 	};
 
+	template <class Key, class T>
+	struct pair
+	{
+		Key	first;
+		T	second;
 
+		typedef	Key				first_type;
+		typedef T				second_type;
+		pair():
+		first(), second()
+		{}
+		template<class U, class V>
+		pair(const pair<U,V>& pr):
+		first(pr.first), second(pr.second)
+		{}
+		pair (const first_type& a, const second_type& b):
+		first(a), second(b)
+		{}
+		pair& operator=(const pair& pr)
+		{
+			this->first = pr.first;
+			this->second = pr.second;
+			return *this;
+		}
+	};
+
+	//Relational operators
+	template <class T1, class T2>
+	bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{
+		return lhs.first==rhs.first && lhs.second==rhs.second;
+	}
+	template <class T1, class T2>
+	bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{
+		return !(lhs==rhs);
+	}
+	template <class T1, class T2>
+	bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{
+		return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
+	}
+	template <class T1, class T2>
+	bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{
+		return !(rhs<lhs);
+	}
+	template <class T1, class T2>
+	bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{
+		return rhs<lhs;
+	}
+	template <class T1, class T2>
+	bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{
+		return !(lhs<rhs);
+	}
+	template <class T1, class T2>
+	pair<T1,T2> make_pair(T1 x, T2 y)
+	{
+			return pair<T1,T2>(x, y);
+	}
+
+	//Nodes
 	template <class T, class NodeType, bool is_const = false >
 	class setIterator
 	{
@@ -27,7 +98,8 @@ namespace ft
 		typedef typename choose<is_const, const T *, T *>::type 				pointer;
 		typedef typename choose<is_const, const T, T>::type 					value_type;
 		typedef typename choose<is_const, const NodeType *, NodeType *>::type	nodeptr;
-		typedef setIterator<value_type, NodeType, is_const>						iterator;
+		typedef typename choose<is_const, const NodeType, NodeType>::type		node;
+		typedef setIterator<value_type, node, is_const>							iterator;
 
 		private:
 			nodeptr		current;
@@ -48,14 +120,14 @@ namespace ft
 			~setIterator()
 			{}
 
-			operator setIterator<value_type, NodeType,true>() const
+			operator setIterator<value_type, node,true>() const
 			{
-				return setIterator<value_type, NodeType, true>(current, prev);
+				return setIterator<value_type, node, true>(current, prev);
 			}
 
-			operator setIterator<value_type, NodeType>()
+			operator setIterator<value_type, node>()
 	 		{
-				return setIterator<value_type, NodeType>(current, prev);
+				return setIterator<value_type, node>(current, prev);
 			}
 
 			setIterator &operator=(const setIterator &it)
@@ -344,13 +416,13 @@ namespace ft
 
 	public:
 		// Constructors
-		explicit set (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):
+		explicit set(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):
 			_root(NULL), _size(0), _comp(comp), _alloc(alloc)
 		{
 		}
 
 		template <class InputIterator>
-		set (InputIterator first, InputIterator last, const key_compare& comp = key_compare())
+		set(typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare())
 		{
 			_root = NULL;
 			_size = 0;
@@ -358,7 +430,7 @@ namespace ft
 			insert(first, last);
 		}
 
-		set (const set& x)
+		set(const set& x)
 		{
 			_root = NULL;
 			_size = 0;
@@ -396,15 +468,14 @@ namespace ft
 			return (iterator(buf, NULL));
 		}
 
-			const_iterator begin() const
-			{
-				Node *buf;
-
-				buf = _root;
-				while (buf && buf->leftChild)
-					buf = buf->leftChild;
-				return (const_iterator(buf, NULL));
-			}
+		const_iterator begin() const
+		{
+			Node *buf;
+			buf = _root;
+			while (buf && buf->leftChild)
+				buf = buf->leftChild;
+			return (const_iterator(buf, NULL));
+		}
 
 			reverse_iterator rbegin()
 			{
@@ -475,7 +546,7 @@ namespace ft
 
 			// Modifiers
 
-			std::pair<iterator,bool> insert (const value_type& val)
+			ft::pair<iterator,bool> insert (const value_type& val)
 			{
 				Node *buf;
 				Node *prev;
@@ -492,7 +563,7 @@ namespace ft
 					{
 						ret = false;
 						it = iterator(buf, prev);
-						return (std::pair<iterator, bool>(it, ret));
+						return (ft::pair<iterator, bool>(it, ret));
 					}
 					prev = buf;
 					if (f(val, buf->nodeData, _comp))
@@ -519,11 +590,11 @@ namespace ft
 				{
 					_size++;
 				}
-				return (std::pair<iterator, bool>(it, ret));
+				return (ft::pair<iterator, bool>(it, ret));
 			}
 			iterator insert (iterator position, const value_type& val)
 			{
-				std::pair<iterator,bool> ret;
+				ft::pair<iterator,bool> ret;
 				iterator it;
 				it = position;
 				if (f(*position, val, _comp) && !it.current->rightChild && *position != val)
@@ -556,10 +627,11 @@ namespace ft
 					ret = insert(val);
 				return ret.first;
 			}
+
 			template <class InputIterator>
-  			void insert (InputIterator first, InputIterator last)
+  			void insert (typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last)
 			{
-				std::pair<ft::set<int>::iterator,bool> ret1;
+				ft::pair<ft::set<int>::iterator,bool> ret1;
 				for (InputIterator it = first; it != last; ++it)
 					ret1 = insert(*it);
 			}
@@ -638,9 +710,20 @@ namespace ft
 
 			iterator find (const value_type& val) const
 			{
-				for (iterator it = begin(); it != end(); ++it)
-					if (*it == val) return it;
-				return end();
+
+				Node *buf;
+
+				buf = _root;
+				while (buf && buf->leftChild)
+					buf = buf->leftChild;
+				iterator it(buf);
+				for (;it != end(); ++it)
+					if (*it == val)
+						return it;
+				buf = _root;
+				while (buf && buf->rightChild)
+					buf = buf->rightChild;
+				return iterator(buf->rightChild, buf);
 			}
 
 			size_type count (const value_type& val) const
@@ -675,29 +758,48 @@ namespace ft
 
 			iterator lower_bound (const value_type& val) const
 			{
-				for (iterator it = begin(); it != end(); ++it)
+
+				Node *buf;
+
+				buf = _root;
+				while (buf && buf->leftChild)
+					buf = buf->leftChild;
+				iterator it(buf);
+				for (; it != end(); ++it)
 				{
 					if (!f(*it, val, _comp))
 						return it;
 				}
-				return end();
+				buf = _root;
+				while (buf && buf->rightChild)
+					buf = buf->rightChild;
+				return iterator(buf->rightChild, buf);
 			}
 
 
 			iterator upper_bound (const value_type& val) const
 			{
-				for (iterator it = begin(); it != end(); ++it)
+				Node *buf;
+
+				buf = _root;
+				while (buf && buf->leftChild)
+					buf = buf->leftChild;
+				iterator it(buf);
+				for (; it != end(); ++it)
 				{
 					if (f(val, *it, _comp))
 						return it;
 				}
-				return end();
+				buf = _root;
+				while (buf && buf->rightChild)
+					buf = buf->rightChild;
+				return iterator(buf->rightChild, buf);
 			}
 
 
-			std::pair<iterator,iterator> equal_range (const value_type& val)
+			ft::pair<iterator,iterator> equal_range (const value_type& val)
 			{
-				std::pair<iterator, iterator> ret;
+				ft::pair<iterator, iterator> ret;
 				ret.first = lower_bound(val);
 				ret.second = upper_bound(val);
 				return ret;
