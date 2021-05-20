@@ -1,5 +1,17 @@
-#ifndef SET_HPP
-#define SET_HPP
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   multiset.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/20 17:17:36 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/20 19:24:52 by ablanar          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MULTISET_HPP
+#define MULTISET_HPP
 #include <functional>
 #include <utility>
 
@@ -229,6 +241,8 @@ namespace ft
 			template <class U, class V, bool E>
 			bool	operator==(const setIterator<U, V, E> &rhs) const
 			{
+				if (rhs.current == NULL && current == NULL)
+					return true;
 				return this->current == rhs.current;
 			}
 			template <class U, class V, bool E>
@@ -238,7 +252,7 @@ namespace ft
 			}
 
 			template <class, class, class>
-			friend class set;
+			friend class multiset;
 			template <class, class, bool>
 			friend class setIterator;
 			// template <class U, class V>
@@ -248,7 +262,7 @@ namespace ft
 			// template <class U, class V>
 			// friend bool operator== (const setIterator<U,V>& lhs, const setIterator<U,V>& rhs);
 			// template <class U, class C>
-			// friend class set;
+			// friend class multiset;
 	};
 
 	// template <class U, class V, bool B>
@@ -350,7 +364,7 @@ namespace ft
 			template <class U>
 			friend bool operator== (const ReverseSetIterator<U>& lhs, const ReverseSetIterator<U>& rhs);
 			template <class, class, class>
-			friend class set;
+			friend class multiset;
 	};
 
 	template <class U>
@@ -366,7 +380,7 @@ namespace ft
 	}
 
 	template <class T, class Compare = std::less<T>, class Alloc = std::allocator<T> >
-	class set
+	class multiset
 	{
 	private:
 		struct Node
@@ -413,16 +427,88 @@ namespace ft
 		size_t 				_size;
 		key_compare			_comp;
 		allocator_type 		_alloc;
+		iterator erase_helper (iterator position)
+		{
+			Node *p;
+			iterator it;
+			iterator ret = position;
 
+			++ret;
+			std::cout <<"root:" <<  _root->nodeData << std::endl;
+			std::cout <<"delete:" <<  *position << std::endl;
+			if (ret.current != NULL)
+				std::cout << *ret <<  "|" << *position << std::endl;
+			it = position;
+			p = position.current->parent;
+			if (position.current->rightChild)
+			{
+				std::cout << "11" << std::endl;
+				if (p && p->rightChild == position.current)
+					p->rightChild = position.current->rightChild;
+				else if (p && p->leftChild == position.current)
+					p->leftChild = position.current->rightChild;
+				position.current->rightChild->parent = p;
+				if (!p)
+				{
+					std::cout << "p1" << std::endl;
+					_root = position.current->rightChild;
+				}
+				if (position.current->leftChild && position.current->rightChild->leftChild)
+				{
+					--it;
+					it.current->rightChild = position.current->rightChild->leftChild;
+				}
+				if (position.current->leftChild)
+				{
+					position.current->rightChild->leftChild = position.current->leftChild;
+					position.current->leftChild->parent = position.current->rightChild;
+				}
+			}
+			else if (position.current->leftChild)
+			{
+				std::cout << "22" << std::endl;
+
+				if (!p)
+				{
+					std::cout << "p2" << std::endl;
+
+					_root = position.current->leftChild;
+				}
+				if (p && p->rightChild == position.current)
+					p->rightChild = position.current->leftChild;
+				else if (p && p->leftChild == position.current)
+					p->leftChild = position.current->leftChild;
+				position.current->leftChild->parent = p;
+			}
+			else
+			{
+				std::cout << "33" << std::endl;
+
+				if (!p)
+				{
+					std::cout << "p3" << std::endl;
+					_root = position.current->rightChild;
+				}
+				if (p && p->rightChild == position.current)
+					p->rightChild = NULL;
+				else if (p && p->leftChild == position.current)
+					p->leftChild = NULL;
+			}
+			delete position.current;
+			position.current->parent = NULL;
+
+			_size--;
+			return ret;
+		}
 	public:
 		// Constructors
-		explicit set(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):
+		explicit multiset(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()):
 			_root(NULL), _size(0), _comp(comp), _alloc(alloc)
 		{
 		}
 
 		template <class InputIterator>
-		set(typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare())
+		multiset(typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare())
 		{
 			_root = NULL;
 			_size = 0;
@@ -430,7 +516,7 @@ namespace ft
 			insert(first, last);
 		}
 
-		set(const set& x)
+		multiset(const multiset& x)
 		{
 			_root = NULL;
 			_size = 0;
@@ -438,13 +524,13 @@ namespace ft
 			insert(x.begin(), x.end());
 		}
 
-		~set()
+		~multiset()
 		{
 			if (_root)
 				clear();
 		}
 
-		set& operator= (const set& x)
+		multiset& operator= (const multiset& x)
 		{
 			if (this == &x)
 				return (*this);
@@ -546,32 +632,24 @@ namespace ft
 
 			// Modifiers
 
-			ft::pair<iterator,bool> insert (const value_type& val)
+			iterator insert (const value_type& val)
 			{
 				Node *buf;
 				Node *prev;
-				bool ret;
 				iterator it;
 
 				buf = _root;
 				prev = NULL;
-				ret = true;
 				it = begin();
 				while (buf != NULL)
 				{
-					if (buf->nodeData == val)
-					{
-						ret = false;
-						it = iterator(buf, prev);
-						return (ft::pair<iterator, bool>(it, ret));
-					}
 					prev = buf;
 					if (f(val, buf->nodeData, _comp))
 						buf = buf->leftChild;
 					else
 						buf = buf->rightChild;
 				}
-				if (prev && ret)
+				if (prev)
 				{
 					Node *to_insert = new Node(val);
 					if (f(val, prev->nodeData, _comp))
@@ -581,43 +659,40 @@ namespace ft
 					to_insert->parent = prev;
 					it = iterator(to_insert, prev);
 				}
-				else if (ret)
+				else
 				{
 					_root = new Node(val);
 					it = begin();
 				}
-				if (ret)
-				{
-					_size++;
-				}
-				return (ft::pair<iterator, bool>(it, ret));
+				_size++;
+				return (iterator(it));
 			}
 			iterator insert (iterator position, const value_type& val)
 			{
-				ft::pair<iterator,bool> ret;
+				iterator ret;
 				iterator it;
 				it = position;
-				if (f(*position, val, _comp) && !it.current->rightChild && *position != val)
+				if (f(*position, val, _comp) && !it.current->rightChild)
 				{
 					++position;
-					if (f(val, *position, _comp) && *position != val)
+					if (f(val, *position, _comp))
 					{
 						it.current->rightChild = new Node(val);
 						it.current->rightChild->parent = it.current;
-						ret.first = iterator(it.current->rightChild);
+						ret = iterator(it.current->rightChild);
 						_size++;
 					}
 					else
 						ret = insert(val);
 				}
-				else if (f(val, *position, _comp) && !it.current->leftChild && *position != val)
+				else if (f(val, *position, _comp) && !it.current->leftChild)
 				{
 					--position;
 					if (f(*position, val, _comp) && *position != val)
 					{
 						it.current->leftChild = new Node(val);
 						it.current->leftChild->parent = it.current;
-						ret.first = iterator(it.current->leftChild);
+						ret = iterator(it.current->leftChild);
 						_size++;
 					}
 					else
@@ -625,13 +700,13 @@ namespace ft
 				}
 				else
 					ret = insert(val);
-				return ret.first;
+				return ret;
 			}
 
 			template <class InputIterator>
   			void insert (typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last)
 			{
-				ft::pair<ft::set<int>::iterator,bool> ret1;
+				iterator ret1;
 				for (InputIterator it = first; it != last; ++it)
 					ret1 = insert(*it);
 			}
@@ -640,9 +715,16 @@ namespace ft
 			{
 				Node *p;
 				iterator it;
+				// iterator buf = position;
+
+				// std::cout << *position << "|" << *buf << std::endl;
+				// ++buf;
+				// std::cout << *position << "|" << *buf << std::endl;
+				std::cout <<"root:" <<  _root->nodeData << std::endl;
 
 				it = position;
 				p = position.current->parent;
+
 				if (position.current->rightChild)
 				{
 					if (p && p->rightChild == position.current)
@@ -658,12 +740,18 @@ namespace ft
 						it.current->rightChild = position.current->rightChild->leftChild;
 					}
 					if (position.current->leftChild)
+					{
 						position.current->rightChild->leftChild = position.current->leftChild;
+						position.current->leftChild->parent = position.current->rightChild;
+					}
 				}
 				else if (position.current->leftChild)
 				{
 					if (!p)
-						_root = position.current->leftChild;
+					{
+						// std::cout << "no " << std::endl;
+						_root = position.current->rightChild;
+					}
 					if (p && p->rightChild == position.current)
 						p->rightChild = position.current->leftChild;
 					else if (p && p->leftChild == position.current)
@@ -681,25 +769,53 @@ namespace ft
 				}
 				delete position.current;
 				position.current->parent = NULL;
+				// position.current = NULL;
 				_size--;
 			}
 
 			size_type erase (const value_type& val)
 			{
 				iterator it;
+				size_type c;
+				std::cout <<"root:" <<  _root->nodeData << std::endl;
 
+				c = 0;
 				it = find(val);
-				if (it == end())
-					return 0;
-				else
+				while (it != end())
+				{
 					erase(it);
-				return 1;
+					it = find(val);
+					c++;
+				}
+				return c;
 			}
 
 			void erase (iterator first, iterator last)
 		 	{
-				for (iterator it = first; it != last; ++it)
-					erase(it);
+				iterator it = first;
+				// for (iterator it = first; it != last; ++it)
+				// {
+					// std::cout << *it << std::endl;
+					// it = erase_helper(it);
+					// if (it.current == NULL)
+						// return ;
+				// }
+
+				std::cout <<"root:" <<  _root->nodeData << std::endl;
+
+				while (it != last && it.current != NULL)
+				{
+					it = erase_helper(it);
+
+					std::cout << "here2" << std::endl;
+					std::cout << (it != last) << std::endl;
+				// 	++first;
+					// std::cout << *it << "|" << *first << std::endl;
+				// 	it = erase_helper(it);
+				// 	std::cout << "here" << std::endl;
+				// 	it = first;
+				}
+
 			}
 
 			void clear()
@@ -716,8 +832,8 @@ namespace ft
 				buf = _root;
 				while (buf && buf->leftChild)
 					buf = buf->leftChild;
-				iterator it(buf);
-				for (;it != end(); ++it)
+				iterator it(buf, NULL);
+				for (; it != end(); ++it)
 					if (*it == val)
 						return it;
 				buf = _root;
@@ -728,12 +844,14 @@ namespace ft
 
 			size_type count (const value_type& val) const
 			{
-				if (find(val) != end())
-					return 1;
-				else
-					return 0;
+				size_type c;
+
+				c = 0;
+				while (find(val) != end())
+					c++;
+				return c;
 			}
-			void swap (set& x)
+			void swap (multiset& x)
 			{
 				Node *buf;
 				int buf_size;

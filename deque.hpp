@@ -143,10 +143,14 @@ namespace ft
 
 			DequeIterator &operator+ (difference_type n)
 			{
-				if (current + n >= reserved_size_ - 1 && first != 0)
+				// std::cout << "here23" << std::endl;
+				// std::cout << "current:" << current << "n:" << n << std::endl;
+
+				if (current + n > reserved_size_ - 1 && first != 0)
 					current = current + n - reserved_size_;
 				else
 					current = current + n;
+				// std::cout << "current:" << current << "n:" << n << std::endl;
 				return *this;
 			}
 
@@ -172,6 +176,7 @@ namespace ft
 			friend DequeIterator operator+(difference_type value, const DequeIterator &x)
 			{
 				DequeIterator tmp(x);
+				// std::cout << "here2" << std::endl;
 				return tmp += value;
 			}
 
@@ -182,11 +187,12 @@ namespace ft
 
 			friend bool operator==(const DequeIterator &lhs, const DequeIterator &rhs)
 			{
-				return ((lhs.current == rhs.current && lhs.array == rhs.array));
+				// std::cout << lhs.current << "|" << rhs.current <<std::endl;
+				return ((lhs.current == rhs.current));
 			}
 			friend bool operator!=(const DequeIterator &lhs, const DequeIterator &rhs)
 			{
-				return (!(lhs.current == rhs.current && lhs.array == rhs.array));
+				return (!(lhs == rhs));
 			}
 			friend bool operator<(const DequeIterator &lhs, const DequeIterator &rhs)
 			{
@@ -642,16 +648,25 @@ namespace ft
 			size_t	reserved_size_;
 			size_t	size_;
 
+			template <class InputIterator>
+			size_t distance(InputIterator first, InputIterator last)
+			{
+				size_t dist;
+
+				dist = 0;
+				for (InputIterator it = first; it != last; ++it)
+					dist++;
+				return dist;
+			}
+
 			void modify_reserved_size(size_type reserved)
 			{
 				pointer new_array;
 				int i = 0;
-				std::cout << "here " << std::endl;
 				if (reserved == 0)
 					reserved = 512;
 				reserved_size_ = reserved;
 				new_array = new T[reserved];
-				std::cout << "here " << std::endl;
 				if (array != NULL)
 				{
 					for (iterator it = begin(); it != end(); ++it)
@@ -838,13 +853,11 @@ namespace ft
 
 				if (n > size_)
 				{
-					std::cout << "kek " << std::endl;
 					while (n > reserved_size_)
 					{
 						std::cout << n << std::endl;
 						modify_reserved_size(reserved_size_);
 					}
-					std::cout << "s" << std::endl;
 					for (size_t i = size_; i < n; i++)
 					{
 						j = i + first > reserved_size_ - 1 ? (first + i) - (reserved_size_) :  first + i;
@@ -927,13 +940,15 @@ namespace ft
 			}
 
 			template <class InputIterator>
-			void assign (InputIterator first, InputIterator last)
+			void assign (InputIterator first, typename enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type last)
 			{
 				int i = 0;
+				size_t dist;
 
+				dist = distance(first, last);
 				if (!array)
 					create_new();
-				while (std::distance(first, last) > reserved_size_)
+				while (dist > reserved_size_)
 					modify_reserved_size(reserved_size_ * 2);
 				for (InputIterator it = first; it < last; it++)
 				{
@@ -1009,14 +1024,17 @@ namespace ft
 				iterator change;
 
 				if (reserved_size_ < size_ + 1)
+				{
 					modify_reserved_size(reserved_size_ * 2);
-				if (!array)
+				}
+				if (!array && size_ == 0)
 				{
 					create_new();
 					change = begin();
 				}
 				else if (position - begin() < end() - position)
 				{
+
 					iterator it = begin();
 					if (first == 0)
 						first = reserved_size_ - 1;
@@ -1025,6 +1043,7 @@ namespace ft
 					change = begin();
 					for (; it != position; ++it)
 					{
+						std::cout << *it << std::endl;
 						*(change) = *(it);
 						change++;
 					}
@@ -1059,6 +1078,7 @@ namespace ft
 			{
 				for (InputIterator it = first; it != last; ++it)
 				{
+					std::cout << "here " << std::endl;
 					insert(position, *it);
 				}
 			}
@@ -1131,13 +1151,14 @@ namespace ft
 				erase(begin(), end());
 			}
 	};
+
 	template <class U>
 	bool operator== (const deque<U>& lhs, const deque<U>& rhs)
 	{
 		if (lhs.size() == rhs.size())
 		{
-			DequeIterator<U> it1 = lhs.begin();
-			DequeIterator<U> it2 = rhs.begin();
+			DequeIterator<U, true> it1 = lhs.begin();
+			DequeIterator<U, true> it2 = rhs.begin();
 			while (it1 != lhs.end() && it2 != rhs.end())
 			{
 				if (*it1 != *it2)
@@ -1160,8 +1181,8 @@ namespace ft
 	{
 		if (lhs.size() == rhs.size())
 		{
-			DequeIterator<U> it1 = lhs.begin();
-			DequeIterator<U> it2 = rhs.begin();
+			DequeIterator<U, true> it1 = lhs.begin();
+			DequeIterator<U, true> it2 = rhs.begin();
 			while (it1 != lhs.end() && it2 != rhs.end())
 			{
 				if (*it1 != *it2)
@@ -1179,8 +1200,8 @@ namespace ft
 	{
 		if (lhs.size() == rhs.size())
 		{
-			DequeIterator<U> it1 = lhs.begin();
-			DequeIterator<U> it2 = rhs.begin();
+			DequeIterator<U, true> it1 = lhs.begin();
+			DequeIterator<U, true> it2 = rhs.begin();
 			while (it1 != lhs.end() && it2 != rhs.end())
 			{
 				if (*it1 != *it2)

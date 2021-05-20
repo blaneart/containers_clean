@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.hpp                                            :+:      :+:    :+:   */
+/*   multimap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/09 14:11:54 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/20 19:28:30 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/20 16:38:53 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/20 19:28:41 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifndef MAP_HPP
-#define MAP_HPP
+#ifndef MULTIMAP_HPP
+#define MULTIMAP_HPP
 
 #include <iostream>
 
@@ -125,13 +125,13 @@ namespace ft
 	};
 
 	template <class T, class Compare, bool is_const = false >
-	class MapIterator
+	class multiMapIterator
 	{
 		public:
 			typedef typename choose<is_const, const T &, T &>::type 				reference;
 			typedef typename choose<is_const, const T *, T *>::type 				pointer;
 			typedef typename choose<is_const, const T, T>::type 					value_type;
-			typedef MapIterator<value_type, Compare, is_const>						iterator;
+			typedef multiMapIterator<value_type, Compare, is_const>						iterator;
 			typedef typename choose<is_const, const Node<T>*, Node<T>*>::type		nodeptr;
 
 		private:
@@ -139,39 +139,39 @@ namespace ft
 			nodeptr prev;
 
 		public:
-			MapIterator() :
+			multiMapIterator() :
 				current(NULL), prev(NULL)
 			{}
 
-			MapIterator(nodeptr b, nodeptr prev = NULL) :
+			multiMapIterator(nodeptr b, nodeptr prev = NULL) :
 				current(b), prev(prev)
 			{}
 
-			MapIterator(MapIterator const &it) :
+			multiMapIterator(multiMapIterator const &it) :
 				current(it.current), prev(it.prev)
 			{}
 
-			MapIterator &operator=(const MapIterator &it)
+			multiMapIterator &operator=(const multiMapIterator &it)
 			{
 				this->current = it.current;
 				this->prev = it.prev;
 				return *this;
 			}
 
-			~MapIterator()
+			~multiMapIterator()
 			{}
 
-			operator MapIterator<value_type, Compare>()
+			operator multiMapIterator<value_type, Compare>()
 	 		{
-				return MapIterator<value_type, Compare>(current, prev);
+				return multiMapIterator<value_type, Compare>(current, prev);
 			}
 
-			operator MapIterator<value_type, Compare, true>() const
+			operator multiMapIterator<value_type, Compare, true>() const
 			{
-				return MapIterator<value_type, Compare, true>(current, prev);
+				return multiMapIterator<value_type, Compare, true>(current, prev);
 			}
 
-			MapIterator &operator++()
+			multiMapIterator &operator++()
 			{
 				Node<T> *p;
 
@@ -200,14 +200,14 @@ namespace ft
 				return *this;
 			}
 
-			MapIterator 	operator++(int)
+			multiMapIterator 	operator++(int)
 			{
-				MapIterator copy(*this);
+				multiMapIterator copy(*this);
 				++*this;
 				return copy;
 			}
 
-			MapIterator &operator--()
+			multiMapIterator &operator--()
 			{
 				Node<T> *p;
 
@@ -242,9 +242,9 @@ namespace ft
 				return *this;
 			}
 
-			MapIterator operator--(int)
+			multiMapIterator operator--(int)
 			{
-				MapIterator copy(*this);
+				multiMapIterator copy(*this);
 				--*this;
 				return copy;
 			}
@@ -260,23 +260,23 @@ namespace ft
 			}
 
 			template <class U, class V, bool E>
-			bool	operator==(const MapIterator<U, V, E> &rhs) const
+			bool	operator==(const multiMapIterator<U, V, E> &rhs) const
 			{
 				return current == rhs.current;
 			}
 			template <class U, class V, bool E>
-			bool	operator!=(const MapIterator<U, V, E> &rhs) const
+			bool	operator!=(const multiMapIterator<U, V, E> &rhs) const
 			{
 				return !(*this == rhs);
 			}
 			// template <class U, class V>
-			// friend bool operator!=(const MapIterator<U,V>& lhs, const MapIterator<U,V>& rhs);
+			// friend bool operator!=(const multiMapIterator<U,V>& lhs, const multiMapIterator<U,V>& rhs);
 			// template <class U, class V>
-			// friend bool operator==(const MapIterator<U,V>& lhs, const MapIterator<U,V>& rhs);
+			// friend bool operator==(const multiMapIterator<U,V>& lhs, const multiMapIterator<U,V>& rhs);
 			template <class, class, class, class>
-			friend class map;
+			friend class multimap;
 			template <class, class, bool>
-			friend class MapIterator;
+			friend class multiMapIterator;
 	};
 	template <class Iterator>
 	class reverseMapIterator
@@ -368,152 +368,9 @@ namespace ft
 			return _base != rhs.base();
 		}
 	};
-	// template <class U, class V>
-	// bool operator!=(const MapIterator<U,V>& lhs, const MapIterator<U,V>& rhs)
-	// {
-	// 	return lhs.current != rhs.current && lhs.prev != rhs.prev;
-	// }
-	// template <class U, class V>
-	// bool operator==(const MapIterator<U,V>& lhs, const MapIterator<U,V>& rhs)
-	// {
-	// 	return lhs.current == rhs.current && lhs.prev == rhs.prev;
-	// }
-
-	// template <class Key, class T, class Compare = std::less<Key> >
-	// class ReverseMapIterator
-	// {
-	// 	private:
-	// 		Node<>	*current;
-	// 		Node<Key,T>	*prev;
-	// 	public:
-	// 		ReverseMapIterator() :
-	// 			current(NULL), prev(NULL)
-	// 		{}
-	// 		ReverseMapIterator(Node<Key,T> *b, Node<Key,T> *prev = NULL) :
-	// 			current(b), prev(prev)
-	// 		{}
-	// 		ReverseMapIterator(ReverseMapIterator const &it) :
-	// 			current(it.current), prev(it.prev)
-	// 		{}
-	//
-	// 		ReverseMapIterator &operator=(const ReverseMapIterator &it)
-	// 		{
-	// 			this->current = it.current;
-	// 			this->prev = it.prev;
-	// 			return *this;
-	// 		}
-	// 		~ReverseMapIterator()
-	// 		{}
-	//
-	// 		ReverseMapIterator<Key, T> &operator--()
-	// 		{
-	// 			Node<Key, T> *p;
-	//
-	// 			if (current->right)
-	// 			{
-	// 				prev = current;
-	// 				current = current->right;
-	// 				while (current->left)
-	// 				{
-	// 					prev = current;
-	// 					current = current->left;
-	// 				}
-	// 			}
-	// 			else
-	// 			{
-	// 				p = current->parent;
-	// 				while (p != NULL && current == p->right)
-	// 				{
-	// 					prev = current;
-	// 					current = p;
-	// 					p = current->parent;
-	// 				}
-	// 				prev = current;
-	// 				current = p;
-	// 			}
-	// 			return *this;
-	// 		}
-	//
-	// 		ReverseMapIterator<Key, T> operator--(int)
-	// 		{
-	// 			ReverseMapIterator<Key, T> copy(*this);
-	// 			--*this;
-	// 			return copy;
-	// 		}
-	//
-	// 		ReverseMapIterator<Key, T> &operator++()
-	// 		{
-	// 			Node<Key, T> *p;
-	//
-	// 			if (!current && prev)
-	// 			{
-	// 				current = prev;
-	// 				prev = prev->parent;
-	// 				return *this;
-	// 			}
-	// 			if (current->left)
-	// 			{
-	// 				prev = current;
-	// 				current = current->left;
-	// 				while (current->right)
-	// 				{
-	// 					prev = current;
-	// 					current = current->right;
-	// 				}
-	// 			}
-	// 			else
-	// 			{
-	// 				p = current->parent;
-	// 				while (p != NULL && current == p->left)
-	// 				{
-	// 					prev = current;
-	// 					current = p;
-	// 					p = current->parent;
-	// 				}
-	// 				prev = current;
-	// 				current = p;
-	// 			}
-	// 			return *this;
-	// 		}
-	//
-	// 		ReverseMapIterator<Key, T> operator++(int)
-	// 		{
-	// 			ReverseMapIterator<Key, T> copy(*this);
-	// 			++*this;
-	// 			return copy;
-	// 		}
-	//
-	// 		pair<Key,T> *operator->() const
-	// 		{
-	// 			return &this->current->e;
-	// 		}
-	//
-	// 		pair<Key,T> &operator*() const
-	// 		{
-	// 			return this->current->e;
-	// 		}
-	//
-	// 		template <class U, class V>
-	// 		friend bool operator!=(const ReverseMapIterator<U,V>& lhs, const ReverseMapIterator<U,V>& rhs);
-	// 		template <class U, class V>
-	// 		friend bool operator==(const ReverseMapIterator<U,V>& lhs, const ReverseMapIterator<U,V>& rhs);
-	// 		template <class U, class V, class C>
-	// 		friend class map;
-	// };
-	// template <class U, class V>
-	// bool operator!=(const ReverseMapIterator<U,V>& lhs, const ReverseMapIterator<U,V>& rhs)
-	// {
-	// 	return lhs.current != rhs.current && lhs.prev != rhs.prev;
-	// }
-	// template <class U, class V>
-	// bool operator==(const ReverseMapIterator<U,V>& lhs, const ReverseMapIterator<U,V>& rhs)
-	// {
-	// 	return lhs.current == rhs.current && lhs.prev == rhs.prev;
-	// }
-
 
 	template <class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
-	class map
+	class multimap
 	{
 	public:
 		typedef Key												key_type;
@@ -525,8 +382,8 @@ namespace ft
 		typedef const typename allocator_type::value_type&		const_reference;
 		typedef	typename allocator_type::value_type*			pointer;
 		typedef const typename allocator_type::value_type*		const_pointer;
-		typedef MapIterator<value_type, key_compare>			iterator;
-		typedef MapIterator<value_type, key_compare, true>		const_iterator;
+		typedef multiMapIterator<value_type, key_compare>			iterator;
+		typedef multiMapIterator<value_type, key_compare, true>		const_iterator;
 		typedef reverseMapIterator<iterator>					reverse_iterator;
 		typedef reverseMapIterator<const_iterator>				const_reverse_iterator;
 		typedef ptrdiff_t										difference_type;
@@ -550,7 +407,7 @@ namespace ft
 
 			class value_compare
 			{
-				friend class map;
+				friend class multimap;
 				protected:
 					Compare comp;
 					value_compare (Compare c) : comp(c) {}
@@ -575,7 +432,7 @@ namespace ft
 				cur = NULL;
 			}
 		public:
-			explicit map(const key_compare& comp = key_compare(),
+			explicit multimap(const key_compare& comp = key_compare(),
             const allocator_type& alloc = allocator_type()) :
 				_size(0), _comp(comp), _alloc(alloc)
 			{
@@ -583,7 +440,7 @@ namespace ft
 			}
 
 			template <class InputIterator>
- 			map(typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first,
+ 			multimap(typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first,
 				InputIterator last,
        			const key_compare& comp = key_compare(),
        			const allocator_type& alloc = allocator_type()) :
@@ -593,14 +450,14 @@ namespace ft
 				insert(first, last);
 			}
 
-			map (const map& x) :
+			multimap (const multimap& x) :
 			_size(0), _comp(x._comp), _alloc(x._alloc)
 			{
 				_head = NULL;
 				*this = x;
 			}
 
-			map<Key, T, Compare, Alloc>&	operator=(map const &x)
+			multimap<Key, T, Compare, Alloc>&	operator=(multimap const &x)
 			{
 				if (this == &x)
 					return (*this);
@@ -609,7 +466,7 @@ namespace ft
 				return (*this);
 			}
 
-			~map()
+			~multimap()
 			{
 				Node<value_type> *start;
 
@@ -739,32 +596,31 @@ namespace ft
 
 			// Modifiers
 
-			pair<iterator, bool> insert (const value_type& val)
+			iterator insert (const value_type& val)
 			{
 				Node<value_type>	*buf;
 				Node<value_type>	*prev;
-				bool				ret;
 				iterator			it;
 
 				buf = _head;
 				prev = NULL;
-				ret = true;
+
 				it = begin();
 				while (buf != NULL)
 				{
-					if (buf->e.first == val.first)
-					{
-						ret = false;
-						it = iterator(buf, NULL);
-						break ;
-					}
+					// if (buf->e.first == val.first)
+					// {
+					// 	ret = false;
+					// 	it = iterator(buf, NULL);
+					// 	break ;
+					// }
 					prev = buf;
 					if (f(val.first, buf->e.first))
 						buf = buf->left;
 					else
 						buf = buf->right;
 				}
-				if (prev && ret)
+				if (prev)
 				{
 					Node<value_type> *to_insert = new Node<value_type>(val);
 					if (f(val.first, prev->e.first))
@@ -774,21 +630,20 @@ namespace ft
 					to_insert->parent = prev;
 					it = iterator(to_insert);
 				}
-				else if (ret)
+				else
 				{
 					_head = new Node<value_type>(val);
 					// _head->left = NULL;
 					it = begin();
 				}
-				if (ret)
-					_size++;
+				_size++;
 
-				return pair<iterator,bool>(it,ret);
+				return iterator(it);
 			}
 
 			iterator insert(iterator position, const value_type& val)
 			{
-				pair<iterator,bool> ret;
+				iterator ret;
 				iterator it;
 
 				it = position;
@@ -799,7 +654,7 @@ namespace ft
 					{
 						it.current->right = new Node<value_type>(val);
 						it.current->right->parent = it.current;
-						ret.first = iterator(it.current->right);
+						ret = iterator(it.current->right);
 						_size++;
 					}
 					else
@@ -812,7 +667,7 @@ namespace ft
 					{
 						it.current->left = new Node<value_type>(val);
 						it.current->left->parent = it.current;
-						ret.first = iterator(it.current->left);
+						ret = iterator(it.current->left);
 						_size++;
 					}
 					else
@@ -820,7 +675,7 @@ namespace ft
 				}
 				else
 					ret = insert(val);
-				return ret.first;
+				return ret;
 			}
 
 			template <class InputIterator>
@@ -885,13 +740,17 @@ namespace ft
 			size_type erase (const key_type& k)
 			{
 				iterator it;
+				int c;
 
+				c = 0;
 				it = find(k);
-				if (it != end())
+				while (it != end())
+				{
 					erase(it);
-				else
-					return 0;
-				return 1;
+					it = find(k);
+					c++;
+				}
+				return c;
 			}
 
 			void erase (iterator first, iterator last)
@@ -940,15 +799,16 @@ namespace ft
 
 			size_type count (const key_type& k) const
 			{
-				const_iterator it = begin();
-				const_iterator ite = end();
-				for (; it != ite; ++it)
-					if (!f(k, it->first) && !f(it->first, k))
-						return 1;
-				return 0;
+				int c;
+
+				c = 0;
+				for (const_iterator it = this->begin(); it != this->end(); ++it)
+					if (!f(k, it->first, _comp) && !f(it->first, k, _comp))
+						c++;
+				return c;
 			}
 
-			void swap (map& x)
+			void swap (multimap& x)
 			{
 				Node<value_type> *buf;
 				int saved_size;
@@ -1056,44 +916,44 @@ namespace ft
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
-	bool	operator==(const map<Key, T, Compare, Alloc> &lhs,
-						const map<Key, T, Compare, Alloc> &rhs) {
+	bool	operator==(const multimap<Key, T, Compare, Alloc> &lhs,
+						const multimap<Key, T, Compare, Alloc> &rhs) {
 		if (lhs.size() != rhs.size())
 			return false;
 		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
-	bool	operator!=(const map<Key, T, Compare, Alloc> &lhs,
-						const map<Key, T, Compare, Alloc> &rhs)
+	bool	operator!=(const multimap<Key, T, Compare, Alloc> &lhs,
+						const multimap<Key, T, Compare, Alloc> &rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
-	bool	operator< (const map<Key, T, Compare, Alloc> &lhs,
-						const map<Key, T, Compare, Alloc> &rhs)
+	bool	operator< (const multimap<Key, T, Compare, Alloc> &lhs,
+						const multimap<Key, T, Compare, Alloc> &rhs)
 	{
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
-	bool	operator<=(const map<Key, T, Compare, Alloc> &lhs,
-						const map<Key, T, Compare, Alloc> &rhs)
+	bool	operator<=(const multimap<Key, T, Compare, Alloc> &lhs,
+						const multimap<Key, T, Compare, Alloc> &rhs)
 	{
 		return !(rhs < lhs);
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
-	bool	operator> (const map<Key, T, Compare, Alloc> &lhs,
-						const map<Key, T, Compare, Alloc> &rhs)
+	bool	operator> (const multimap<Key, T, Compare, Alloc> &lhs,
+						const multimap<Key, T, Compare, Alloc> &rhs)
 	{
 		return (rhs < lhs);
 	}
 
 	template <class Key, class T, class Compare, class Alloc>
-	bool	operator>=(const map<Key, T, Compare, Alloc> &lhs,
-						const map<Key, T, Compare, Alloc> &rhs)
+	bool	operator>=(const multimap<Key, T, Compare, Alloc> &lhs,
+						const multimap<Key, T, Compare, Alloc> &rhs)
 	{
 		return !(lhs < rhs);
 	}
