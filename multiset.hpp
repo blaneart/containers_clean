@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:17:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/20 19:24:52 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/21 17:16:42 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -434,25 +434,18 @@ namespace ft
 			iterator ret = position;
 
 			++ret;
-			std::cout <<"root:" <<  _root->nodeData << std::endl;
-			std::cout <<"delete:" <<  *position << std::endl;
-			if (ret.current != NULL)
-				std::cout << *ret <<  "|" << *position << std::endl;
+
 			it = position;
 			p = position.current->parent;
 			if (position.current->rightChild)
 			{
-				std::cout << "11" << std::endl;
 				if (p && p->rightChild == position.current)
 					p->rightChild = position.current->rightChild;
 				else if (p && p->leftChild == position.current)
 					p->leftChild = position.current->rightChild;
 				position.current->rightChild->parent = p;
 				if (!p)
-				{
-					std::cout << "p1" << std::endl;
 					_root = position.current->rightChild;
-				}
 				if (position.current->leftChild && position.current->rightChild->leftChild)
 				{
 					--it;
@@ -466,12 +459,9 @@ namespace ft
 			}
 			else if (position.current->leftChild)
 			{
-				std::cout << "22" << std::endl;
 
 				if (!p)
 				{
-					std::cout << "p2" << std::endl;
-
 					_root = position.current->leftChild;
 				}
 				if (p && p->rightChild == position.current)
@@ -482,11 +472,10 @@ namespace ft
 			}
 			else
 			{
-				std::cout << "33" << std::endl;
+
 
 				if (!p)
 				{
-					std::cout << "p3" << std::endl;
 					_root = position.current->rightChild;
 				}
 				if (p && p->rightChild == position.current)
@@ -715,12 +704,6 @@ namespace ft
 			{
 				Node *p;
 				iterator it;
-				// iterator buf = position;
-
-				// std::cout << *position << "|" << *buf << std::endl;
-				// ++buf;
-				// std::cout << *position << "|" << *buf << std::endl;
-				std::cout <<"root:" <<  _root->nodeData << std::endl;
 
 				it = position;
 				p = position.current->parent;
@@ -748,10 +731,7 @@ namespace ft
 				else if (position.current->leftChild)
 				{
 					if (!p)
-					{
-						// std::cout << "no " << std::endl;
 						_root = position.current->rightChild;
-					}
 					if (p && p->rightChild == position.current)
 						p->rightChild = position.current->leftChild;
 					else if (p && p->leftChild == position.current)
@@ -777,7 +757,6 @@ namespace ft
 			{
 				iterator it;
 				size_type c;
-				std::cout <<"root:" <<  _root->nodeData << std::endl;
 
 				c = 0;
 				it = find(val);
@@ -793,29 +772,9 @@ namespace ft
 			void erase (iterator first, iterator last)
 		 	{
 				iterator it = first;
-				// for (iterator it = first; it != last; ++it)
-				// {
-					// std::cout << *it << std::endl;
-					// it = erase_helper(it);
-					// if (it.current == NULL)
-						// return ;
-				// }
-
-				std::cout <<"root:" <<  _root->nodeData << std::endl;
 
 				while (it != last && it.current != NULL)
-				{
 					it = erase_helper(it);
-
-					std::cout << "here2" << std::endl;
-					std::cout << (it != last) << std::endl;
-				// 	++first;
-					// std::cout << *it << "|" << *first << std::endl;
-				// 	it = erase_helper(it);
-				// 	std::cout << "here" << std::endl;
-				// 	it = first;
-				}
-
 			}
 
 			void clear()
