@@ -6,37 +6,37 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 18:35:11 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/09 13:47:13 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/23 18:02:52 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_HPP
 # define LIST_HPP
-# include <iostream>
+# include "utility.hpp"
 
 namespace ft
 {
 
-	template <bool, class IsTrue = void>
-	struct enable_if;
-
-	template <class IsTrue>
-	struct enable_if<true, IsTrue> {
-		typedef IsTrue type;
-	};
-
-	template <bool flag, class IsTrue, class IsFalse>
-	struct choose;
-
-	template <class IsTrue, class IsFalse>
-	struct choose<true, IsTrue, IsFalse> {
-	   typedef IsTrue type;
-	};
-
-	template <class IsTrue, class IsFalse>
-	struct choose<false, IsTrue, IsFalse> {
-	   typedef IsFalse type;
-	};
+	// template <bool, class IsTrue = void>
+	// struct enable_if;
+	//
+	// template <class IsTrue>
+	// struct enable_if<true, IsTrue> {
+	// 	typedef IsTrue type;
+	// };
+	//
+	// template <bool flag, class IsTrue, class IsFalse>
+	// struct choose;
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<true, IsTrue, IsFalse> {
+	//    typedef IsTrue type;
+	// };
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<false, IsTrue, IsFalse> {
+	//    typedef IsFalse type;
+	// };
 	// list node
 	template <typename T>
 	struct listNode
@@ -69,21 +69,6 @@ namespace ft
 			listIterator(nodeptr p = 0, nodeptr  prev = 0, nodeptr head = 0, nodeptr tail = 0):
 				_pos(p), _prev(prev), _head(head), _tail(tail)
 			{}
-
-			operator listIterator<T, true>() const
- 			{
-				return listIterator<T,true>(_pos, _prev, _head);
-			}
-			reference operator*() const
-			{
-				return _pos->data;
-			}
-
-			pointer operator->() const
-			{
-				return &_pos->data;
-			}
-
 			listIterator(const iterator& other):
 				_pos(other._pos), _prev(other._prev), _head(other._head), _tail(other._tail)
 			{}
@@ -99,6 +84,21 @@ namespace ft
 
 			~listIterator()
 			{}
+
+			operator listIterator<T, true>() const
+ 			{
+				return listIterator<T,true>(_pos, _prev, _head);
+			}
+
+			reference operator*() const
+			{
+				return _pos->data;
+			}
+
+			pointer operator->() const
+			{
+				return &_pos->data;
+			}
 
 			listIterator& operator++()
 			{
@@ -194,6 +194,8 @@ namespace ft
 			{
 				return _pos != rhs._pos;
 			}
+
+
 			template <class, bool>
 			friend class listIterator;
 			template <class, class>
@@ -213,7 +215,14 @@ namespace ft
 // 	bool operator!=(const listIterator<U, E>& lhs, const listIterator<U, E>& rhs)	{
 // 	return lhs._pos != rhs._pos;
 // }
-
+	template <class listIterator, class Distance>
+	void advance (listIterator& it, Distance n)
+	{
+		if (n >= 0)
+			for (; n > 0; --n) ++it;
+		else
+			for (; n < 0; ++n) --it;
+	}
 	template <class Iterator>
 	class reverseListIterator
 	{
@@ -451,17 +460,20 @@ namespace ft
 		{
 			listNode<T> *n = new listNode<T>(val);
 
+			// std::cout << "val" <<  val << std::endl;
 			if (position._pos)
 			{
-				position._pos->prev = n;
+
 				n->next = position._pos;
 				if (!position._prev)
 					_head = n;
 				else
 				{
-					position._prev->next = n;
+					// std::cout << "here"  << position._prev->data<< std::endl;
+					position._pos->prev->next = n;
 					n->prev = position._prev;
 				}
+				position._pos->prev = n;
 			}
 			else
 			{
@@ -476,14 +488,18 @@ namespace ft
 			}
 			_size++;
 			position._prev = n;
+			// if (position._pos)
+			// 	position._pos->prev = n;
+			// std::cout <<"d " <<  n->data << std::endl;
 			return iterator(n, n->prev);
 		}
 
 		template <class InputIterator>
 		void insert (iterator position, typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last)
 		{
-			;
 			iterator buf;
+			// if (position._prev)
+				// std::cout << "pos:" << position._prev->data << std::endl;
 			for (InputIterator it = first; it != last; ++it)
 			{
 				buf = insert(position, *it);
@@ -497,12 +513,9 @@ namespace ft
 			;
 			for (size_type i = 0; i < n; i++)
 			{
-				;
 				buf = insert(position, val);
-				;
 				position._prev = buf._pos;
 			}
-			;
 		}
 
 		iterator erase(iterator position)
@@ -1009,32 +1022,32 @@ namespace ft
 			position->prev = position->next = 0;
 		}
 	};
-	template <class Ite1, class Ite2>
-	bool equal (Ite1 first, Ite1 last, Ite2 first2)
-	{
-		while (first != last)
-		{
-			if (*first != *first2)
-				return false;
-			++first;
-			++first2;
-		}
-		return true;
-	}
-
-	template <class Ite1, class Ite2>
-	bool lexicographical_compare(Ite1 first1, Ite1 last1, Ite2 first2, Ite2 last2)
-	{
-		while (first1 != last1 && first2 != last2 && *first1 == *first2)
-		{
-			++first1; ++first2;
-		}
-		if (first1 == last1)
-			return (first2 != last2);
-		else if (first2 == last2)
-			return (false);
-		return (*first1 < *first2);
-	}
+	// template <class Ite1, class Ite2>
+	// bool equal (Ite1 first, Ite1 last, Ite2 first2)
+	// {
+	// 	while (first != last)
+	// 	{
+	// 		if (*first != *first2)
+	// 			return false;
+	// 		++first;
+	// 		++first2;
+	// 	}
+	// 	return true;
+	// }
+	//
+	// template <class Ite1, class Ite2>
+	// bool lexicographical_compare(Ite1 first1, Ite1 last1, Ite2 first2, Ite2 last2)
+	// {
+	// 	while (first1 != last1 && first2 != last2 && *first1 == *first2)
+	// 	{
+	// 		++first1; ++first2;
+	// 	}
+	// 	if (first1 == last1)
+	// 		return (first2 != last2);
+	// 	else if (first2 == last2)
+	// 		return (false);
+	// 	return (*first1 < *first2);
+	// }
 	template <class T, class Alloc>
 	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 	{
