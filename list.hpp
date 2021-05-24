@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 18:35:11 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/23 18:02:52 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/24 18:31:15 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -893,7 +893,7 @@ namespace ft
 
 		listNode<T> *partition(listNode<T> *first, listNode<T> *last)
 		{
-			T x = last->data;
+
 			listNode<T> *i = first->prev;
 			for (listNode<T> *j = first; j != last; j = j->next)
 			{

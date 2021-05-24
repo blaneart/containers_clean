@@ -3,19 +3,22 @@
 
 // #include "../deque/Deque.hpp"
 #include <iostream>
-#include <deque>
-#include "list.hpp"
+
+#include "utility.hpp"
+#include "deque.hpp"
+ 
 namespace ft
 {
-	template <class T, class Container=ft::list<T> >
+	template <class T, class Container = deque<T> >
 	class stack
 	{
 		private:
 			Container container;
 		public:
-			typedef T value_type;
-			typedef Container container_type;
-			typedef int size_type;
+			typedef T				value_type;
+			typedef Container		container_type;
+			typedef size_t			size_type;
+
 			explicit stack (const container_type& ctnr = container_type())
 			: container(ctnr)
 			{

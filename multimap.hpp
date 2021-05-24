@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:38:53 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/20 19:28:41 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/24 18:56:02 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,113 +16,116 @@
 
 #include <iostream>
 
+// There are no guarantees on the relative order of equivalent elements.
+// https://www.cplusplus.com/reference/map/multimap/insert/
+
 namespace ft
 {
-	template <bool, class IsTrue = void>
-	struct enable_if;
-
-	template <class IsTrue>
-	struct enable_if<true, IsTrue> {
-		typedef IsTrue type;
-	};
-	//PAIR
-	template <class Key, class T>
-	struct pair
-	{
-		Key	first;
-		T	second;
-
-		typedef	Key				first_type;
-		typedef T				second_type;
-		pair():
-		first(), second()
-		{}
-		template<class U, class V>
-		pair(const pair<U,V>& pr):
-		first(pr.first), second(pr.second)
-		{}
-		pair (const first_type& a, const second_type& b):
-		first(a), second(b)
-		{}
-		pair& operator=(const pair& pr)
-		{
-			this->first = pr.first;
-			this->second = pr.second;
-			return *this;
-		}
-	};
+	// template <bool, class IsTrue = void>
+	// struct enable_if;
+	//
+	// template <class IsTrue>
+	// struct enable_if<true, IsTrue> {
+	// 	typedef IsTrue type;
+	// };
+	// //PAIR
+	// template <class Key, class T>
+	// struct pair
+	// {
+	// 	Key	first;
+	// 	T	second;
+	//
+	// 	typedef	Key				first_type;
+	// 	typedef T				second_type;
+	// 	pair():
+	// 	first(), second()
+	// 	{}
+	// 	template<class U, class V>
+	// 	pair(const pair<U,V>& pr):
+	// 	first(pr.first), second(pr.second)
+	// 	{}
+	// 	pair (const first_type& a, const second_type& b):
+	// 	first(a), second(b)
+	// 	{}
+	// 	pair& operator=(const pair& pr)
+	// 	{
+	// 		this->first = pr.first;
+	// 		this->second = pr.second;
+	// 		return *this;
+	// 	}
+	// };
 
 	//Relational operators
-	template <class T1, class T2>
-	bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return lhs.first==rhs.first && lhs.second==rhs.second;
-	}
-	template <class T1, class T2>
-	bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return !(lhs==rhs);
-	}
-	template <class T1, class T2>
-	bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
-	}
-	template <class T1, class T2>
-	bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return !(rhs<lhs);
-	}
-	template <class T1, class T2>
-	bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return rhs<lhs;
-	}
-	template <class T1, class T2>
-	bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return !(lhs<rhs);
-	}
-	template <class T1, class T2>
-	pair<T1,T2> make_pair(T1 x, T2 y)
-	{
-			return pair<T1,T2>(x, y);
-	}
+	// template <class T1, class T2>
+	// bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return lhs.first==rhs.first && lhs.second==rhs.second;
+	// }
+	// template <class T1, class T2>
+	// bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return !(lhs==rhs);
+	// }
+	// template <class T1, class T2>
+	// bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
+	// }
+	// template <class T1, class T2>
+	// bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return !(rhs<lhs);
+	// }
+	// template <class T1, class T2>
+	// bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return rhs<lhs;
+	// }
+	// template <class T1, class T2>
+	// bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return !(lhs<rhs);
+	// }
+	// template <class T1, class T2>
+	// pair<T1,T2> make_pair(T1 x, T2 y)
+	// {
+	// 		return pair<T1,T2>(x, y);
+	// }
 
 	//Node
+	//
+	// template <class value_type>
+	// struct Node
+	// {
+	// 	bool _unused;
+	// 	#if __APPLE__ == 0
+	// 		int _unused_for_linux;
+	// 	#endif
+	// 	value_type			e;
+	// 	Node				*right;
+	// 	Node				*left;
+	// 	Node				*parent;
+	// 	Node() :
+	// 	e(), right(NULL), left(NULL), parent(NULL)
+	// 	{}
+	// 	template <class U>
+	// 	Node(const U& pr = U()):
+	// 	e(pr), right(NULL), left(NULL), parent(NULL)
+	// 	{}
+	// };
 
-	template <class value_type>
-	struct Node
-	{
-		bool _unused;
-		#if __APPLE__ == 0
-			int _unused_for_linux;
-		#endif
-		value_type			e;
-		Node				*right;
-		Node				*left;
-		Node				*parent;
-		Node() :
-		e(), right(NULL), left(NULL), parent(NULL)
-		{}
-		template <class U>
-		Node(const U& pr = U()):
-		e(pr), right(NULL), left(NULL), parent(NULL)
-		{}
-	};
-
-	template <bool flag, class IsTrue, class IsFalse>
-	struct choose;
-
-	template <class IsTrue, class IsFalse>
-	struct choose<true, IsTrue, IsFalse> {
-	   typedef IsTrue type;
-	};
-
-	template <class IsTrue, class IsFalse>
-	struct choose<false, IsTrue, IsFalse> {
-	   typedef IsFalse type;
-	};
+	// template <bool flag, class IsTrue, class IsFalse>
+	// struct choose;
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<true, IsTrue, IsFalse> {
+	//    typedef IsTrue type;
+	// };
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<false, IsTrue, IsFalse> {
+	//    typedef IsFalse type;
+	// };
 
 	template <class T, class Compare, bool is_const = false >
 	class multiMapIterator
@@ -279,7 +282,7 @@ namespace ft
 			friend class multiMapIterator;
 	};
 	template <class Iterator>
-	class reverseMapIterator
+	class reverseMultiMapIterator
 	{
 	private:
 		Iterator _base;
@@ -290,29 +293,29 @@ namespace ft
 		typedef typename Iterator::pointer pointer;
 		typedef typename Iterator::reference reference;
 
-		reverseMapIterator() :
+		reverseMultiMapIterator() :
 			_base()
 			{ }
-		reverseMapIterator(Iterator base):
+		reverseMultiMapIterator(Iterator base):
 			_base(base)
 			{}
 
 		template <class U>
-		reverseMapIterator(const reverseMapIterator<U> &u):
+		reverseMultiMapIterator(const reverseMultiMapIterator<U> &u):
 			_base(u.base())
 		{
 		}
-		reverseMapIterator(const reverseMapIterator<Iterator> & other):
+		reverseMultiMapIterator(const reverseMultiMapIterator<Iterator> & other):
 			_base(other.base())
 		{
 		}
-		reverseMapIterator<Iterator>& operator=(const reverseMapIterator<Iterator>& other)
+		reverseMultiMapIterator<Iterator>& operator=(const reverseMultiMapIterator<Iterator>& other)
 		{
 			_base = other.base();
 			return *this;
 		}
 
-		~reverseMapIterator()
+		~reverseMultiMapIterator()
 		{}
 
 		Iterator base() const
@@ -321,27 +324,27 @@ namespace ft
 			return cpy;
 		}
 
-		reverseMapIterator<Iterator>& operator++()
+		reverseMultiMapIterator<Iterator>& operator++()
 		{
 			--_base;
 			return *this;
 		}
 
-		reverseMapIterator<Iterator>& operator--() {
+		reverseMultiMapIterator<Iterator>& operator--() {
 			++_base;
 			return *this;
 		}
 
-		reverseMapIterator<Iterator> operator++(int)
+		reverseMultiMapIterator<Iterator> operator++(int)
 		{
-			reverseMapIterator cpy(*this);
+			reverseMultiMapIterator cpy(*this);
 			--_base;
 			return cpy;
 		}
 
-		reverseMapIterator<Iterator> operator--(int)
+		reverseMultiMapIterator<Iterator> operator--(int)
 		{
-			reverseMapIterator cpy(*this);
+			reverseMultiMapIterator cpy(*this);
 			++_base;
 			return cpy;
 		}
@@ -357,13 +360,13 @@ namespace ft
 		}
 
 		template <class U>
-		bool	operator==(const reverseMapIterator<U> &rhs) const
+		bool	operator==(const reverseMultiMapIterator<U> &rhs) const
 		{
 			return _base == rhs.base();
 		}
 
 		template <class U>
-		bool	operator!=(const reverseMapIterator<U> &rhs) const
+		bool	operator!=(const reverseMultiMapIterator<U> &rhs) const
 		{
 			return _base != rhs.base();
 		}
@@ -384,8 +387,8 @@ namespace ft
 		typedef const typename allocator_type::value_type*		const_pointer;
 		typedef multiMapIterator<value_type, key_compare>			iterator;
 		typedef multiMapIterator<value_type, key_compare, true>		const_iterator;
-		typedef reverseMapIterator<iterator>					reverse_iterator;
-		typedef reverseMapIterator<const_iterator>				const_reverse_iterator;
+		typedef reverseMultiMapIterator<iterator>					reverse_iterator;
+		typedef reverseMultiMapIterator<const_iterator>				const_reverse_iterator;
 		typedef ptrdiff_t										difference_type;
 		typedef size_t											size_type;
 
@@ -454,7 +457,8 @@ namespace ft
 			_size(0), _comp(x._comp), _alloc(x._alloc)
 			{
 				_head = NULL;
-				*this = x;
+				if (!x.empty())
+					insert(x.begin(), x.end());
 			}
 
 			multimap<Key, T, Compare, Alloc>&	operator=(multimap const &x)
@@ -462,8 +466,12 @@ namespace ft
 				if (this == &x)
 					return (*this);
 				clear();
-				insert(x.begin(), x.end());
-				return (*this);
+				_head = NULL;
+				_size = 0;
+				_comp = x._comp;
+				if (!x.empty())
+					insert(x.begin(), x.end());
+				return *this;
 			}
 
 			~multimap()
@@ -608,14 +616,8 @@ namespace ft
 				it = begin();
 				while (buf != NULL)
 				{
-					// if (buf->e.first == val.first)
-					// {
-					// 	ret = false;
-					// 	it = iterator(buf, NULL);
-					// 	break ;
-					// }
 					prev = buf;
-					if (f(val.first, buf->e.first))
+					if (f(val.first, buf->e.first, _comp))
 						buf = buf->left;
 					else
 						buf = buf->right;
@@ -623,7 +625,7 @@ namespace ft
 				if (prev)
 				{
 					Node<value_type> *to_insert = new Node<value_type>(val);
-					if (f(val.first, prev->e.first))
+					if (f(val.first, prev->e.first, _comp))
 						prev->left = to_insert;
 					else
 						prev->right = to_insert;
@@ -647,10 +649,10 @@ namespace ft
 				iterator it;
 
 				it = position;
-				if (!empty() && f(position->first, val.first) && !it.current->right && position->first != val.first)
+				if (!empty() && f(position->first, val.first, _comp) && !it.current->right && position->first != val.first)
 				{
 					++position;
-					if (f(val.first, position->first) && position->first != val.first)
+					if (f(val.first, position->first, _comp) && position->first != val.first)
 					{
 						it.current->right = new Node<value_type>(val);
 						it.current->right->parent = it.current;
@@ -660,10 +662,10 @@ namespace ft
 					else
 						ret = insert(val);
 				}
-				else if (!empty() && f(val.first, position->first) && !it.current->left && position->first != val.first)
+				else if (!empty() && f(val.first, position->first, _comp) && !it.current->left && position->first != val.first)
 				{
 					--position;
-					if (f(position->first, val.first) && position->first != val.first)
+					if (f(position->first, val.first, _comp) && position->first != val.first)
 					{
 						it.current->left = new Node<value_type>(val);
 						it.current->left->parent = it.current;
@@ -776,7 +778,7 @@ namespace ft
 				it = begin();
 				while (it != end())
 				{
-					if (!f(k, it->first) && !f(it->first, k))
+					if (!f(k, it->first, _comp) && !f(it->first, k, _comp))
 						return it;
 					++it;
 				}
@@ -790,7 +792,7 @@ namespace ft
 				it = begin();
 				while (it != end())
 				{
-					if (!f(k, it->first) && !f(it->first, k))
+					if (!f(k, it->first, _comp) && !f(it->first, k, _comp))
 						return it;
 					++it;
 				}
@@ -830,7 +832,7 @@ namespace ft
 			{
 				for (iterator it = begin(); it != end(); ++it)
 				{
-					if (!f(it->first, k))
+					if (!f(it->first, k, _comp))
 						return it;
 				}
 				return end();
@@ -840,7 +842,7 @@ namespace ft
 			{
 				for (const_iterator it = begin(); it != end(); ++it)
 				{
-					if (!f(it->first, k))
+					if (!f(it->first, k, _comp))
 						return it;
 				}
 				return end();
@@ -850,7 +852,7 @@ namespace ft
 			{
 				for (iterator it = begin(); it != end(); ++it)
 				{
-					if (f(k, it->first))
+					if (f(k, it->first, _comp))
 						return it;
 				}
 				return end();
@@ -860,7 +862,7 @@ namespace ft
 			{
 				for (const_iterator it = begin(); it != end(); ++it)
 				{
-					if (f(k, it->first))
+					if (f(k, it->first, _comp))
 						return it;
 				}
 				return end();
@@ -888,32 +890,32 @@ namespace ft
 			}
 	};
 
-	template <class Ite1, class Ite2>
-	bool equal (Ite1 first, Ite1 last, Ite2 first2)
-	{
-		while (first != last)
-		{
-			if (*first != *first2)
-				return false;
-			++first;
-			++first2;
-		}
-		return true;
-	}
-
-	template <class Ite1, class Ite2>
-	bool lexicographical_compare(Ite1 first1, Ite1 last1, Ite2 first2, Ite2 last2)
-	{
-		while (first1 != last1 && first2 != last2 && *first1 == *first2)
-		{
-			++first1; ++first2;
-		}
-		if (first1 == last1)
-			return (first2 != last2);
-		else if (first2 == last2)
-			return (false);
-		return (*first1 < *first2);
-	}
+	// template <class Ite1, class Ite2>
+	// bool equal (Ite1 first, Ite1 last, Ite2 first2)
+	// {
+	// 	while (first != last)
+	// 	{
+	// 		if (*first != *first2)
+	// 			return false;
+	// 		++first;
+	// 		++first2;
+	// 	}
+	// 	return true;
+	// }
+	//
+	// template <class Ite1, class Ite2>
+	// bool lexicographical_compare(Ite1 first1, Ite1 last1, Ite2 first2, Ite2 last2)
+	// {
+	// 	while (first1 != last1 && first2 != last2 && *first1 == *first2)
+	// 	{
+	// 		++first1; ++first2;
+	// 	}
+	// 	if (first1 == last1)
+	// 		return (first2 != last2);
+	// 	else if (first2 == last2)
+	// 		return (false);
+	// 	return (*first1 < *first2);
+	// }
 
 	template <class Key, class T, class Compare, class Alloc>
 	bool	operator==(const multimap<Key, T, Compare, Alloc> &lhs,

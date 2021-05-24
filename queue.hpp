@@ -3,11 +3,11 @@
 
 // #include "../deque/Deque.hpp"
 
-#include "list.hpp"
+#include "deque.hpp"
 
 namespace ft
 {
-	template <class T, class Container = ft::list<T> >
+	template <class T, class Container = deque<T> >
 	class queue
 	{
 		private:
@@ -59,7 +59,49 @@ namespace ft
 			{
 				container.pop_front();
 			}
+			template <class U, class V>
+			friend bool operator== (const queue<U,V>& lhs, const queue<U,V>& rhs);
+			template <class U, class V>
+			friend bool operator!= (const queue<U,V>& lhs, const queue<U,V>& rhs);
+			template <class U, class V>
+			friend bool operator<  (const queue<U,V>& lhs, const queue<U,V>& rhs);
+			template <class U, class V>
+			friend bool operator<= (const queue<U,V>& lhs, const queue<U,V>& rhs);
+			template <class U, class V>
+			friend bool operator>  (const queue<U,V>& lhs, const queue<U,V>& rhs);
+			template <class U, class V>
+			friend bool operator>= (const queue<U,V>& lhs, const queue<U,V>& rhs);
 	};
+	template <class U, class V>
+	bool operator== (const queue<U,V>& lhs, const queue<U,V>& rhs)
+	{
+		return (lhs.container == rhs.container);
+	}
+	template <class U, class V>
+	bool operator!= (const queue<U,V>& lhs, const queue<U,V>& rhs)
+	{
+		return (lhs.container != rhs.container);
+	}
+	template <class U, class V>
+	bool operator<  (const queue<U,V>& lhs, const queue<U,V>& rhs)
+	{
+		return (lhs.container < rhs.container);
+	}
+	template <class U, class V>
+	bool operator<= (const queue<U,V>& lhs, const queue<U,V>& rhs)
+	{
+		return (lhs.container <= rhs.container);
+	}
+	template <class U, class V>
+	bool operator>  (const queue<U,V>& lhs, const queue<U,V>& rhs)
+	{
+		return (lhs.container > rhs.container);
+	}
+	template <class U, class V>
+	bool operator>= (const queue<U,V>& lhs, const queue<U,V>& rhs)
+	{
+		return (lhs.container >= rhs.container);
+	}
 }
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/09 14:11:54 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/23 18:37:29 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/24 17:50:38 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -597,7 +597,8 @@ namespace ft
 			_size(0), _comp(x._comp), _alloc(x._alloc)
 			{
 				_head = NULL;
-				*this = x;
+				if (!x.empty())
+					insert(x.begin(), x.end());
 			}
 
 			map<Key, T, Compare, Alloc>&	operator=(map const &x)
@@ -605,8 +606,12 @@ namespace ft
 				if (this == &x)
 					return (*this);
 				clear();
-				insert(x.begin(), x.end());
-				return (*this);
+				_head = NULL;
+				_size = 0;
+				_comp = x._comp;
+				if (!x.empty())
+					insert(x.begin(), x.end());
+				return *this;
 			}
 
 			~map()
@@ -759,7 +764,7 @@ namespace ft
 						break ;
 					}
 					prev = buf;
-					if (f(val.first, buf->e.first))
+					if (f(val.first, buf->e.first, _comp))
 						buf = buf->left;
 					else
 						buf = buf->right;
@@ -767,7 +772,7 @@ namespace ft
 				if (prev && ret)
 				{
 					Node<value_type> *to_insert = new Node<value_type>(val);
-					if (f(val.first, prev->e.first))
+					if (f(val.first, prev->e.first, _comp))
 						prev->left = to_insert;
 					else
 						prev->right = to_insert;
@@ -792,10 +797,10 @@ namespace ft
 				iterator it;
 
 				it = position;
-				if (!empty() && f(position->first, val.first) && !it.current->right && position->first != val.first)
+				if (!empty() && f(position->first, val.first, _comp) && !it.current->right && position->first != val.first)
 				{
 					++position;
-					if (f(val.first, position->first) && position->first != val.first)
+					if (f(val.first, position->first, _comp) && position->first != val.first)
 					{
 						it.current->right = new Node<value_type>(val);
 						it.current->right->parent = it.current;
@@ -805,10 +810,10 @@ namespace ft
 					else
 						ret = insert(val);
 				}
-				else if (!empty() && f(val.first, position->first) && !it.current->left && position->first != val.first)
+				else if (!empty() && f(val.first, position->first, _comp) && !it.current->left && position->first != val.first)
 				{
 					--position;
-					if (f(position->first, val.first) && position->first != val.first)
+					if (f(position->first, val.first, _comp) && position->first != val.first)
 					{
 						it.current->left = new Node<value_type>(val);
 						it.current->left->parent = it.current;
@@ -917,7 +922,7 @@ namespace ft
 				it = begin();
 				while (it != end())
 				{
-					if (!f(k, it->first) && !f(it->first, k))
+					if (!f(k, it->first, _comp) && !f(it->first, k, _comp))
 						return it;
 					++it;
 				}
@@ -931,7 +936,7 @@ namespace ft
 				it = begin();
 				while (it != end())
 				{
-					if (!f(k, it->first) && !f(it->first, k))
+					if (!f(k, it->first, _comp) && !f(it->first, k, _comp))
 						return it;
 					++it;
 				}
@@ -943,7 +948,7 @@ namespace ft
 				const_iterator it = begin();
 				const_iterator ite = end();
 				for (; it != ite; ++it)
-					if (!f(k, it->first) && !f(it->first, k))
+					if (!f(k, it->first, _comp) && !f(it->first, k, _comp))
 						return 1;
 				return 0;
 			}
@@ -970,7 +975,7 @@ namespace ft
 			{
 				for (iterator it = begin(); it != end(); ++it)
 				{
-					if (!f(it->first, k))
+					if (!f(it->first, k, _comp))
 						return it;
 				}
 				return end();
@@ -980,7 +985,7 @@ namespace ft
 			{
 				for (const_iterator it = begin(); it != end(); ++it)
 				{
-					if (!f(it->first, k))
+					if (!f(it->first, k, _comp))
 						return it;
 				}
 				return end();
@@ -990,7 +995,7 @@ namespace ft
 			{
 				for (iterator it = begin(); it != end(); ++it)
 				{
-					if (f(k, it->first))
+					if (f(k, it->first, _comp))
 						return it;
 				}
 				return end();
@@ -1000,7 +1005,7 @@ namespace ft
 			{
 				for (const_iterator it = begin(); it != end(); ++it)
 				{
-					if (f(k, it->first))
+					if (f(k, it->first, _comp))
 						return it;
 				}
 				return end();

@@ -5,89 +5,89 @@
 
 namespace ft
 {
-	template <bool, class IsTrue = void>
-	struct enable_if;
+	// template <bool, class IsTrue = void>
+	// struct enable_if;
+	//
+	// template <class IsTrue>
+	// struct enable_if<true, IsTrue> {
+	// 	typedef IsTrue type;
+	// };
+	//
+	// template <bool flag, class IsTrue, class IsFalse>
+	// struct choose;
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<true, IsTrue, IsFalse> {
+	//    typedef IsTrue type;
+	// };
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<false, IsTrue, IsFalse> {
+	//    typedef IsFalse type;
+	// };
+	//
+	// template <class Key, class T>
+	// struct pair
+	// {
+	// 	Key	first;
+	// 	T	second;
+	//
+	// 	typedef	Key				first_type;
+	// 	typedef T				second_type;
+	// 	pair():
+	// 	first(), second()
+	// 	{}
+	// 	template<class U, class V>
+	// 	pair(const pair<U,V>& pr):
+	// 	first(pr.first), second(pr.second)
+	// 	{}
+	// 	pair (const first_type& a, const second_type& b):
+	// 	first(a), second(b)
+	// 	{}
+	// 	pair& operator=(const pair& pr)
+	// 	{
+	// 		this->first = pr.first;
+	// 		this->second = pr.second;
+	// 		return *this;
+	// 	}
+	// };
 
-	template <class IsTrue>
-	struct enable_if<true, IsTrue> {
-		typedef IsTrue type;
-	};
-
-	template <bool flag, class IsTrue, class IsFalse>
-	struct choose;
-
-	template <class IsTrue, class IsFalse>
-	struct choose<true, IsTrue, IsFalse> {
-	   typedef IsTrue type;
-	};
-
-	template <class IsTrue, class IsFalse>
-	struct choose<false, IsTrue, IsFalse> {
-	   typedef IsFalse type;
-	};
-
-	template <class Key, class T>
-	struct pair
-	{
-		Key	first;
-		T	second;
-
-		typedef	Key				first_type;
-		typedef T				second_type;
-		pair():
-		first(), second()
-		{}
-		template<class U, class V>
-		pair(const pair<U,V>& pr):
-		first(pr.first), second(pr.second)
-		{}
-		pair (const first_type& a, const second_type& b):
-		first(a), second(b)
-		{}
-		pair& operator=(const pair& pr)
-		{
-			this->first = pr.first;
-			this->second = pr.second;
-			return *this;
-		}
-	};
-
-	//Relational operators
-	template <class T1, class T2>
-	bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return lhs.first==rhs.first && lhs.second==rhs.second;
-	}
-	template <class T1, class T2>
-	bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return !(lhs==rhs);
-	}
-	template <class T1, class T2>
-	bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
-	}
-	template <class T1, class T2>
-	bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return !(rhs<lhs);
-	}
-	template <class T1, class T2>
-	bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return rhs<lhs;
-	}
-	template <class T1, class T2>
-	bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return !(lhs<rhs);
-	}
-	template <class T1, class T2>
-	pair<T1,T2> make_pair(T1 x, T2 y)
-	{
-			return pair<T1,T2>(x, y);
-	}
+	// //Relational operators
+	// template <class T1, class T2>
+	// bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return lhs.first==rhs.first && lhs.second==rhs.second;
+	// }
+	// template <class T1, class T2>
+	// bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return !(lhs==rhs);
+	// }
+	// template <class T1, class T2>
+	// bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
+	// }
+	// template <class T1, class T2>
+	// bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return !(rhs<lhs);
+	// }
+	// template <class T1, class T2>
+	// bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return rhs<lhs;
+	// }
+	// template <class T1, class T2>
+	// bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return !(lhs<rhs);
+	// }
+	// template <class T1, class T2>
+	// pair<T1,T2> make_pair(T1 x, T2 y)
+	// {
+	// 		return pair<T1,T2>(x, y);
+	// }
 
 	//Nodes
 	template <class T, class NodeType, bool is_const = false >
@@ -383,6 +383,7 @@ namespace ft
 				parent = p;
 			}
 		};
+
 	public:
 		typedef T												key_type;
 		typedef T												value_type;
@@ -400,7 +401,68 @@ namespace ft
 		typedef ptrdiff_t 										difference_type;
 		typedef size_t											size_type;
 	private:
+		iterator erase_helper (iterator position)
+		{
+			Node *p;
+			iterator it;
+			iterator ret = position;
 
+			++ret;
+
+			it = position;
+			p = position.current->parent;
+			if (position.current->rightChild)
+			{
+				if (p && p->rightChild == position.current)
+					p->rightChild = position.current->rightChild;
+				else if (p && p->leftChild == position.current)
+					p->leftChild = position.current->rightChild;
+				position.current->rightChild->parent = p;
+				if (!p)
+					_root = position.current->rightChild;
+				if (position.current->leftChild && position.current->rightChild->leftChild)
+				{
+					--it;
+					it.current->rightChild = position.current->rightChild->leftChild;
+				}
+				if (position.current->leftChild)
+				{
+					position.current->rightChild->leftChild = position.current->leftChild;
+					position.current->leftChild->parent = position.current->rightChild;
+				}
+			}
+			else if (position.current->leftChild)
+			{
+
+				if (!p)
+				{
+					_root = position.current->leftChild;
+				}
+				if (p && p->rightChild == position.current)
+					p->rightChild = position.current->leftChild;
+				else if (p && p->leftChild == position.current)
+					p->leftChild = position.current->leftChild;
+				position.current->leftChild->parent = p;
+			}
+			else
+			{
+
+
+				if (!p)
+				{
+					_root = position.current->rightChild;
+				}
+				if (p && p->rightChild == position.current)
+					p->rightChild = NULL;
+				else if (p && p->leftChild == position.current)
+					p->leftChild = NULL;
+			}
+			delete position.current;
+			position.current->parent = NULL;
+
+			_size--;
+			return ret;
+		}
 		bool f(const T a, const T b, Compare u = Compare())
 		{
 			return (u(a, b));
@@ -430,12 +492,13 @@ namespace ft
 			insert(first, last);
 		}
 
-		set(const set& x)
+		set(const set& x) :
+			_comp(x._comp)
 		{
 			_root = NULL;
 			_size = 0;
-			_comp = x._comp;
-			insert(x.begin(), x.end());
+			if (!x.empty())
+				insert(x.begin(), x.end());
 		}
 
 		~set()
@@ -453,7 +516,8 @@ namespace ft
 			_root = NULL;
 			_size = 0;
 			_comp = x._comp;
-			insert(x.begin(), x.end());
+			if (!x.empty())
+				insert(x.begin(), x.end());
 			return *this;
 		}
 		// Iterators
@@ -540,8 +604,7 @@ namespace ft
 
 			size_type max_size() const
 			{
-				return std::numeric_limits<difference_type>::max();
-			}
+				return std::numeric_limits<difference_type>::max() / (sizeof(Node) / 2 ?: 1);			}
 
 
 			// Modifiers
@@ -552,7 +615,7 @@ namespace ft
 				Node *prev;
 				bool ret;
 				iterator it;
-
+				// std::cout << "here" << std::endl;
 				buf = _root;
 				prev = NULL;
 				ret = true;
@@ -631,9 +694,8 @@ namespace ft
 			template <class InputIterator>
   			void insert (typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last)
 			{
-				ft::pair<ft::set<int>::iterator,bool> ret1;
 				for (InputIterator it = first; it != last; ++it)
-					ret1 = insert(*it);
+					insert(*it);
 			}
 
 			void erase (iterator position)
@@ -658,7 +720,10 @@ namespace ft
 						it.current->rightChild = position.current->rightChild->leftChild;
 					}
 					if (position.current->leftChild)
+					{
 						position.current->rightChild->leftChild = position.current->leftChild;
+						position.current->leftChild->parent = position.current->rightChild;
+					}
 				}
 				else if (position.current->leftChild)
 				{
@@ -698,8 +763,10 @@ namespace ft
 
 			void erase (iterator first, iterator last)
 		 	{
-				for (iterator it = first; it != last; ++it)
-					erase(it);
+				iterator it = first;
+
+				while (it != last && it.current != NULL)
+					it = erase_helper(it);
 			}
 
 			void clear()

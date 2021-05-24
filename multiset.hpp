@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:17:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/21 17:16:42 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/24 17:30:07 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,93 +17,93 @@
 
 namespace ft
 {
-	template <bool, class IsTrue = void>
-	struct enable_if;
+	// template <bool, class IsTrue = void>
+	// struct enable_if;
+	//
+	// template <class IsTrue>
+	// struct enable_if<true, IsTrue> {
+	// 	typedef IsTrue type;
+	// };
+	//
+	// template <bool flag, class IsTrue, class IsFalse>
+	// struct choose;
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<true, IsTrue, IsFalse> {
+	//    typedef IsTrue type;
+	// };
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<false, IsTrue, IsFalse> {
+	//    typedef IsFalse type;
+	// };
 
-	template <class IsTrue>
-	struct enable_if<true, IsTrue> {
-		typedef IsTrue type;
-	};
-
-	template <bool flag, class IsTrue, class IsFalse>
-	struct choose;
-
-	template <class IsTrue, class IsFalse>
-	struct choose<true, IsTrue, IsFalse> {
-	   typedef IsTrue type;
-	};
-
-	template <class IsTrue, class IsFalse>
-	struct choose<false, IsTrue, IsFalse> {
-	   typedef IsFalse type;
-	};
-
-	template <class Key, class T>
-	struct pair
-	{
-		Key	first;
-		T	second;
-
-		typedef	Key				first_type;
-		typedef T				second_type;
-		pair():
-		first(), second()
-		{}
-		template<class U, class V>
-		pair(const pair<U,V>& pr):
-		first(pr.first), second(pr.second)
-		{}
-		pair (const first_type& a, const second_type& b):
-		first(a), second(b)
-		{}
-		pair& operator=(const pair& pr)
-		{
-			this->first = pr.first;
-			this->second = pr.second;
-			return *this;
-		}
-	};
+	// template <class Key, class T>
+	// struct pair
+	// {
+	// 	Key	first;
+	// 	T	second;
+	//
+	// 	typedef	Key				first_type;
+	// 	typedef T				second_type;
+	// 	pair():
+	// 	first(), second()
+	// 	{}
+	// 	template<class U, class V>
+	// 	pair(const pair<U,V>& pr):
+	// 	first(pr.first), second(pr.second)
+	// 	{}
+	// 	pair (const first_type& a, const second_type& b):
+	// 	first(a), second(b)
+	// 	{}
+	// 	pair& operator=(const pair& pr)
+	// 	{
+	// 		this->first = pr.first;
+	// 		this->second = pr.second;
+	// 		return *this;
+	// 	}
+	// };
 
 	//Relational operators
-	template <class T1, class T2>
-	bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return lhs.first==rhs.first && lhs.second==rhs.second;
-	}
-	template <class T1, class T2>
-	bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return !(lhs==rhs);
-	}
-	template <class T1, class T2>
-	bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
-	}
-	template <class T1, class T2>
-	bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return !(rhs<lhs);
-	}
-	template <class T1, class T2>
-	bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return rhs<lhs;
-	}
-	template <class T1, class T2>
-	bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{
-		return !(lhs<rhs);
-	}
-	template <class T1, class T2>
-	pair<T1,T2> make_pair(T1 x, T2 y)
-	{
-			return pair<T1,T2>(x, y);
-	}
+	// template <class T1, class T2>
+	// bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return lhs.first==rhs.first && lhs.second==rhs.second;
+	// }
+	// template <class T1, class T2>
+	// bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return !(lhs==rhs);
+	// }
+	// template <class T1, class T2>
+	// bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
+	// }
+	// template <class T1, class T2>
+	// bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return !(rhs<lhs);
+	// }
+	// template <class T1, class T2>
+	// bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return rhs<lhs;
+	// }
+	// template <class T1, class T2>
+	// bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	// {
+	// 	return !(lhs<rhs);
+	// }
+	// template <class T1, class T2>
+	// pair<T1,T2> make_pair(T1 x, T2 y)
+	// {
+	// 		return pair<T1,T2>(x, y);
+	// }
 
 	//Nodes
 	template <class T, class NodeType, bool is_const = false >
-	class setIterator
+	class multiSetIterator
 	{
 	public:
 		typedef typename choose<is_const, const T &, T &>::type 				reference;
@@ -111,45 +111,45 @@ namespace ft
 		typedef typename choose<is_const, const T, T>::type 					value_type;
 		typedef typename choose<is_const, const NodeType *, NodeType *>::type	nodeptr;
 		typedef typename choose<is_const, const NodeType, NodeType>::type		node;
-		typedef setIterator<value_type, node, is_const>							iterator;
+		typedef multiSetIterator<value_type, node, is_const>							iterator;
 
 		private:
 			nodeptr		current;
 			nodeptr		prev;
 		public:
-			setIterator():
+			multiSetIterator():
 				current(NULL), prev(NULL)
 			{
 			}
-			setIterator(nodeptr current, nodeptr prev = NULL):
+			multiSetIterator(nodeptr current, nodeptr prev = NULL):
 				current(current), prev(prev)
 			{
 			}
-			setIterator(const setIterator &it):
+			multiSetIterator(const multiSetIterator &it):
 				current(it.current), prev(it.prev)
 			{
 			}
-			~setIterator()
+			~multiSetIterator()
 			{}
 
-			operator setIterator<value_type, node,true>() const
+			operator multiSetIterator<value_type, node,true>() const
 			{
-				return setIterator<value_type, node, true>(current, prev);
+				return multiSetIterator<value_type, node, true>(current, prev);
 			}
 
-			operator setIterator<value_type, node>()
+			operator multiSetIterator<value_type, node>()
 	 		{
-				return setIterator<value_type, node>(current, prev);
+				return multiSetIterator<value_type, node>(current, prev);
 			}
 
-			setIterator &operator=(const setIterator &it)
+			multiSetIterator &operator=(const multiSetIterator &it)
 			{
 				current = it.current;
 				prev = it.prev;
 				return *this;
 			}
 
-			setIterator &operator++()
+			multiSetIterator &operator++()
 			{
 				NodeType *p;
 
@@ -178,14 +178,14 @@ namespace ft
 				return *this;
 			}
 
-			setIterator operator++(int)
+			multiSetIterator operator++(int)
 			{
-				setIterator copy(*this);
+				multiSetIterator copy(*this);
 				++*this;
 				return copy;
 			}
 
-			setIterator &operator--()
+			multiSetIterator &operator--()
 			{
 				NodeType *p;
 
@@ -220,9 +220,9 @@ namespace ft
 				return *this;
 			}
 
-			setIterator operator--(int)
+			multiSetIterator operator--(int)
 			{
-				setIterator copy(*this);
+				multiSetIterator copy(*this);
 
 				--*this;
 				return copy;
@@ -239,14 +239,13 @@ namespace ft
 			}
 
 			template <class U, class V, bool E>
-			bool	operator==(const setIterator<U, V, E> &rhs) const
+			bool	operator==(const multiSetIterator<U, V, E> &rhs) const
 			{
-				if (rhs.current == NULL && current == NULL)
-					return true;
 				return this->current == rhs.current;
 			}
+
 			template <class U, class V, bool E>
-			bool	operator!=(const setIterator<U, V, E> &rhs) const
+			bool	operator!=(const multiSetIterator<U, V, E> &rhs) const
 			{
 				return !(*this == rhs);
 			}
@@ -254,31 +253,31 @@ namespace ft
 			template <class, class, class>
 			friend class multiset;
 			template <class, class, bool>
-			friend class setIterator;
+			friend class multiSetIterator;
 			// template <class U, class V>
-			// friend bool operator!= (const setIterator<U,V>& lhs, const setIterator<U,V>& rhs);
+			// friend bool operator!= (const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs);
 			// template <class U, class V>
-			// friend bool operator!= (const setIterator<U,V>& lhs, const setIterator<U,V>& rhs);
+			// friend bool operator!= (const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs);
 			// template <class U, class V>
-			// friend bool operator== (const setIterator<U,V>& lhs, const setIterator<U,V>& rhs);
+			// friend bool operator== (const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs);
 			// template <class U, class C>
 			// friend class multiset;
 	};
 
 	// template <class U, class V, bool B>
-	// bool operator!=(const setIterator<U,V>& lhs, const setIterator<U,V>& rhs)
+	// bool operator!=(const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs)
 	// {
 	// 	return lhs.current != rhs.current && lhs.prev != rhs.prev;
 	// }
 	//
 	// template <class U, class V, bool>
-	// bool operator==(const setIterator<U,V>& lhs, const setIterator<U,V>& rhs)
+	// bool operator==(const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs)
 	// {
 	// 	return lhs.current == rhs.current && lhs.prev == rhs.prev;
 	// }
 
 	template <class Iterator>
-	class ReverseSetIterator
+	class ReverseMultiSetIterator
 	{
 		private:
 			Iterator _base;
@@ -288,27 +287,27 @@ namespace ft
 			typedef typename Iterator::pointer pointer;
 			typedef typename Iterator::reference reference;
 
-			ReverseSetIterator():
+			ReverseMultiSetIterator():
 				_base()
 			{}
 
-			ReverseSetIterator(Iterator base):
+			ReverseMultiSetIterator(Iterator base):
 				_base(base)
 			{}
 
 			template <class U>
-			ReverseSetIterator(const ReverseSetIterator<U> &it):
+			ReverseMultiSetIterator(const ReverseMultiSetIterator<U> &it):
 				_base(it.base())
 			{}
 
-			ReverseSetIterator(const ReverseSetIterator<Iterator> &it):
+			ReverseMultiSetIterator(const ReverseMultiSetIterator<Iterator> &it):
 					_base(it.base())
 			{}
 
-			~ReverseSetIterator()
+			~ReverseMultiSetIterator()
 			{}
 
-			ReverseSetIterator<Iterator> &operator=(const  ReverseSetIterator<Iterator> &it)
+			ReverseMultiSetIterator<Iterator> &operator=(const  ReverseMultiSetIterator<Iterator> &it)
 			{
 				_base = it.base();
 				return *this;
@@ -320,30 +319,30 @@ namespace ft
 				return cpy;
 			}
 
-			ReverseSetIterator<Iterator> &operator++()
+			ReverseMultiSetIterator<Iterator> &operator++()
 			{
 				--_base;
 				return *this;
 			}
 
-			ReverseSetIterator<Iterator> &operator--()
+			ReverseMultiSetIterator<Iterator> &operator--()
 			{
 				++_base;
 				return *this;
 			}
 
-			ReverseSetIterator<Iterator> operator++(int)
+			ReverseMultiSetIterator<Iterator> operator++(int)
 			{
-				ReverseSetIterator<Iterator> copy(*this);
+				ReverseMultiSetIterator<Iterator> copy(*this);
 
 				--_base;
 				return copy;
 			}
 
 
-			ReverseSetIterator<Iterator> operator--(int)
+			ReverseMultiSetIterator<Iterator> operator--(int)
 			{
-				ReverseSetIterator<Iterator> copy(*this);
+				ReverseMultiSetIterator<Iterator> copy(*this);
 				++_base;
 				return copy;
 			}
@@ -360,21 +359,21 @@ namespace ft
 			}
 
 			template <class U>
-			friend bool operator!= (const ReverseSetIterator<U>& lhs, const ReverseSetIterator<U>& rhs);
+			friend bool operator!= (const ReverseMultiSetIterator<U>& lhs, const ReverseMultiSetIterator<U>& rhs);
 			template <class U>
-			friend bool operator== (const ReverseSetIterator<U>& lhs, const ReverseSetIterator<U>& rhs);
+			friend bool operator== (const ReverseMultiSetIterator<U>& lhs, const ReverseMultiSetIterator<U>& rhs);
 			template <class, class, class>
 			friend class multiset;
 	};
 
 	template <class U>
-	bool operator!=(const ReverseSetIterator<U>& lhs, const ReverseSetIterator<U>& rhs)
+	bool operator!=(const ReverseMultiSetIterator<U>& lhs, const ReverseMultiSetIterator<U>& rhs)
 	{
 		return lhs.base() != rhs.base();
 	}
 
 	template <class U>
-	bool operator==(const ReverseSetIterator<U>& lhs, const ReverseSetIterator<U>& rhs)
+	bool operator==(const ReverseMultiSetIterator<U>& lhs, const ReverseMultiSetIterator<U>& rhs)
 	{
 		return lhs.base() == rhs.base();
 	}
@@ -407,10 +406,10 @@ namespace ft
 		typedef const typename allocator_type::value_type& 		const_reference;
 		typedef typename allocator_type::value_type*			pointer;
 		typedef const typename allocator_type::value_type*		const_pointer;
-		typedef setIterator<T, Node>							iterator;
-		typedef setIterator<T, Node, true> 						const_iterator;
-		typedef ReverseSetIterator<iterator> 					reverse_iterator;
-		typedef ReverseSetIterator<const_iterator>	 			const_reverse_iterator;
+		typedef multiSetIterator<T, Node>						iterator;
+		typedef multiSetIterator<T, Node, true> 				const_iterator;
+		typedef ReverseMultiSetIterator<iterator> 				reverse_iterator;
+		typedef ReverseMultiSetIterator<const_iterator>	 		const_reverse_iterator;
 		typedef ptrdiff_t 										difference_type;
 		typedef size_t											size_type;
 	private:
@@ -510,7 +509,8 @@ namespace ft
 			_root = NULL;
 			_size = 0;
 			_comp = x._comp;
-			insert(x.begin(), x.end());
+			if (!x.empty())
+				insert(x.begin(), x.end());
 		}
 
 		~multiset()
@@ -528,7 +528,8 @@ namespace ft
 			_root = NULL;
 			_size = 0;
 			_comp = x._comp;
-			insert(x.begin(), x.end());
+			if (!x.empty())
+				insert(x.begin(), x.end());
 			return *this;
 		}
 		// Iterators
@@ -615,7 +616,7 @@ namespace ft
 
 			size_type max_size() const
 			{
-				return std::numeric_limits<difference_type>::max();
+				return std::numeric_limits<difference_type>::max() / (sizeof(Node) / 2 ?: 1);
 			}
 
 
@@ -695,9 +696,8 @@ namespace ft
 			template <class InputIterator>
   			void insert (typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last)
 			{
-				iterator ret1;
 				for (InputIterator it = first; it != last; ++it)
-					ret1 = insert(*it);
+					insert(*it);
 			}
 
 			void erase (iterator position)
@@ -806,10 +806,12 @@ namespace ft
 				size_type c;
 
 				c = 0;
-				while (find(val) != end())
-					c++;
+				for (const_iterator it = begin(); it != end(); ++it)
+					if (!f(val, *it, _comp) && !f(*it, val, _comp))
+						c++;
 				return c;
 			}
+			
 			void swap (multiset& x)
 			{
 				Node *buf;

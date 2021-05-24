@@ -8,7 +8,7 @@
 #include <functional>
 #include <exception>
 #include <stdexcept>
-
+#include "utility.hpp"
 // #include "../Map.hpp"
 //array of arrays https://stackoverflow.com/questions/6292332/what-really-is-a-deque-in-stl
 // https://stackoverflow.com/questions/43221070/is-it-possible-to-set-the-size-of-the-inner-array-of-a-stldeque buf size
@@ -16,27 +16,27 @@
 namespace ft
 {
 
-
-	template <bool, class IsTrue = void>
-	struct enable_if;
-
-	template <class IsTrue>
-	struct enable_if<true, IsTrue> {
-		typedef IsTrue type;
-	};
-
-	template <bool flag, class IsTrue, class IsFalse>
-	struct choose;
-
-	template <class IsTrue, class IsFalse>
-	struct choose<true, IsTrue, IsFalse> {
-	   typedef IsTrue type;
-	};
-
-	template <class IsTrue, class IsFalse>
-	struct choose<false, IsTrue, IsFalse> {
-	   typedef IsFalse type;
-	};
+	//
+	// template <bool, class IsTrue = void>
+	// struct enable_if;
+	//
+	// template <class IsTrue>
+	// struct enable_if<true, IsTrue> {
+	// 	typedef IsTrue type;
+	// };
+	//
+	// template <bool flag, class IsTrue, class IsFalse>
+	// struct choose;
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<true, IsTrue, IsFalse> {
+	//    typedef IsTrue type;
+	// };
+	//
+	// template <class IsTrue, class IsFalse>
+	// struct choose<false, IsTrue, IsFalse> {
+	//    typedef IsFalse type;
+	// };
 
 	template <class T, bool is_const = false >
 	class DequeIterator
@@ -647,7 +647,7 @@ namespace ft
 			int		last;
 			size_t	reserved_size_;
 			size_t	size_;
-
+			Alloc _alloc;
 			template <class InputIterator>
 			size_t distance(InputIterator first, InputIterator last)
 			{
@@ -685,7 +685,7 @@ namespace ft
 			void create_new(void)
 			{
 				array = new T[reserved_size_];
-				for (int i = 0; i < reserved_size_; i++)
+				for (size_type i = 0; i < reserved_size_; i++)
 					array[i] = value_type();
 				first = 0;
 				last = 0;
@@ -694,19 +694,20 @@ namespace ft
 		public:
 
 			explicit deque (const allocator_type& alloc = allocator_type()):
-				array(NULL), first(0), last(0), reserved_size_(0), size_(0)
+				array(NULL), first(0), last(0), reserved_size_(0), size_(0), _alloc(alloc)
 			{}
 
 			explicit deque(size_type n, const value_type& val = value_type(),
-				                const allocator_type& alloc = allocator_type())
+				                const allocator_type& alloc = allocator_type()):
+								_alloc(alloc)
 			{
 				reserved_size_ = DEQUE_SIZE;
 				while (n > reserved_size_ )
 					reserved_size_ = reserved_size_ * 2;
 				T *arr = new T[reserved_size_];
-				for (int i = 0; i < n; i++)
+				for (size_type i = 0; i < n; i++)
 					arr[i] = val;
-				for (int i = n; i < reserved_size_; i++)
+				for (size_type i = n; i < reserved_size_; i++)
 					arr[i] = value_type();
 				array = arr;
 				first = 0;
@@ -715,7 +716,7 @@ namespace ft
 			}
 
 			deque(const deque& x):
-				array(NULL), first(0), last(0), reserved_size_(DEQUE_SIZE), size_(0)
+				array(NULL), first(0), last(0), reserved_size_(DEQUE_SIZE), size_(0), _alloc(x._alloc)
 			{
 
 				if (!x.empty())
@@ -730,8 +731,8 @@ namespace ft
 			}
 
 			template <class InputIterator>
-			deque(typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last):
-							array(NULL), first(0), last(0), reserved_size_(DEQUE_SIZE), size_(0)
+			deque(typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()):
+							array(NULL), first(0), last(0), reserved_size_(DEQUE_SIZE), size_(0), _alloc(alloc)
 			{
 				for (InputIterator it = first; it != last; ++it)
 				{
@@ -854,14 +855,10 @@ namespace ft
 				if (n > size_)
 				{
 					while (n > reserved_size_)
-					{
-						std::cout << n << std::endl;
 						modify_reserved_size(reserved_size_);
-					}
 					for (size_t i = size_; i < n; i++)
 					{
 						j = i + first > reserved_size_ - 1 ? (first + i) - (reserved_size_) :  first + i;
-						std::cout << j << std::endl;
 						array[j] = val;
 					}
 				}
@@ -932,7 +929,7 @@ namespace ft
 					create_new();
 				while (n > reserved_size_)
 					modify_reserved_size(reserved_size_ * 2);
-				for (int i = 0; i < n; i++)
+				for (size_type i = 0; i < n; i++)
 					array[i] = val;
 				first = 0;
 				last = n - 1;
@@ -1015,7 +1012,7 @@ namespace ft
 			{
 				size_--;
 				first++;
-				if (first > reserved_size_ - 1)
+				if ((size_type)first > reserved_size_ - 1)
 					first = 0;
 			}
 
@@ -1043,7 +1040,6 @@ namespace ft
 					change = begin();
 					for (; it != position; ++it)
 					{
-						std::cout << *it << std::endl;
 						*(change) = *(it);
 						change++;
 					}
@@ -1068,7 +1064,7 @@ namespace ft
 
 			void insert (iterator position, size_type n, const value_type& val)
 			{
-				for (int i = 0; i < n; i++)
+				for (size_type i = 0; i < n; i++)
 				{
 				    insert(position, val);
 				}
@@ -1077,10 +1073,7 @@ namespace ft
 			void insert (iterator position, InputIterator first, typename enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type last)
 			{
 				for (InputIterator it = first; it != last; ++it)
-				{
-					std::cout << "here " << std::endl;
 					insert(position, *it);
-				}
 			}
 
 			iterator erase (iterator position)
