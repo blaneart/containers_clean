@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   max_size.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 17:57:40 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 17:58:07 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,10 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  TESTED_NAMESPACE::multimap<int,int> mymultimap;
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  std::cout <<  mymultimap.max_size() << std::endl;
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
-
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
 
   return 0;
 }

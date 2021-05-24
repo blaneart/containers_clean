@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   count.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 16:17:45 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 16:17:52 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../common.hpp"
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  TESTED_NAMESPACE::set<int> myset;
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  // set some initial values:
+  for (int i=1; i<5; ++i) myset.insert(i*3);    // set: 3 6 9 12
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
-
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
+  for (int i=0; i<10; ++i)
+  {
+    std::cout << i;
+    if (myset.count(i)!=0)
+      std::cout << " is an element of myset.\n";
+    else
+      std::cout << " is not an element of myset.\n";
+  }
 
   return 0;
 }

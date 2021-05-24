@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   front.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 15:02:30 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 15:02:39 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,14 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  TESTED_NAMESPACE::deque<int> mydeque;
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  mydeque.push_front(77);
+  mydeque.push_back(20);
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
+  mydeque.front() -= mydeque.back();
 
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
+  std::cout << "mydeque.front() is now " << mydeque.front() << '\n';
 
   return 0;
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_overload.cpp                                  :+:      :+:    :+:   */
+/*   clear.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:31:52 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:44:53 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 16:14:19 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 16:15:51 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> foo (3,100);   // three ints with a value of 100
-  TESTED_NAMESPACE::vector<int> bar (5,200);   // five ints with a value of 200
+  TESTED_NAMESPACE::set<int> myset;
 
-  foo.swap(bar);
+  myset.insert (100);
+  myset.insert (200);
+  myset.insert (300);
 
-  std::cout << "foo contains:";
-  for (TESTED_NAMESPACE::vector<int>::iterator it = foo.begin(); it!=foo.end(); ++it)
+  std::cout << "myset contains:";
+  for (TESTED_NAMESPACE::set<int>::iterator it=myset.begin(); it!=myset.end(); ++it)
     std::cout << ' ' << *it;
   std::cout << '\n';
 
-  std::cout << "bar contains:";
-  for (TESTED_NAMESPACE::vector<int>::iterator it = bar.begin(); it!=bar.end(); ++it)
+  myset.clear();
+  myset.insert (1101);
+  myset.insert (2202);
+
+  std::cout << "myset contains:";
+  for (TESTED_NAMESPACE::set<int>::iterator it=myset.begin(); it!=myset.end(); ++it)
     std::cout << ' ' << *it;
   std::cout << '\n';
 

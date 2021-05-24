@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   begin.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 17:55:01 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 17:55:11 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,15 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  TESTED_NAMESPACE::multimap<char,int> mymultimap;
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  mymultimap.insert (TESTED_NAMESPACE::pair<char,int>('a',10));
+  mymultimap.insert (TESTED_NAMESPACE::pair<char,int>('b',20));
+  mymultimap.insert (TESTED_NAMESPACE::pair<char,int>('b',150));
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
-
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
+  // show content:
+  for (TESTED_NAMESPACE::multimap<char,int>::iterator it=mymultimap.begin(); it!=mymultimap.end(); ++it)
+    std::cout << (*it).first << " => " << (*it).second << '\n';
 
   return 0;
 }

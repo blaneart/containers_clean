@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   pop_back.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 15:12:38 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 15:12:50 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  TESTED_NAMESPACE::deque<int> mydeque;
+  int sum (0);
+  mydeque.push_back (10);
+  mydeque.push_back (20);
+  mydeque.push_back (30);
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  while (!mydeque.empty())
+  {
+    sum+=mydeque.back();
+    mydeque.pop_back();
+  }
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
-
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
+  std::cout << "The elements of mydeque add up to " << sum << '\n';
 
   return 0;
 }

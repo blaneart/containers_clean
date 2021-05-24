@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_overload.cpp                                  :+:      :+:    :+:   */
+/*   clear.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:31:52 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:44:53 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 15:20:33 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 18:41:59 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> foo (3,100);   // three ints with a value of 100
-  TESTED_NAMESPACE::vector<int> bar (5,200);   // five ints with a value of 200
 
-  foo.swap(bar);
+  TESTED_NAMESPACE::deque<int> mydeque;
+  mydeque.push_back (100);
+  mydeque.push_back (200);
+  mydeque.push_back (300);
 
-  std::cout << "foo contains:";
-  for (TESTED_NAMESPACE::vector<int>::iterator it = foo.begin(); it!=foo.end(); ++it)
+  std::cout << "mydeque contains:";
+  for (TESTED_NAMESPACE::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it)
     std::cout << ' ' << *it;
   std::cout << '\n';
 
-  std::cout << "bar contains:";
-  for (TESTED_NAMESPACE::vector<int>::iterator it = bar.begin(); it!=bar.end(); ++it)
+  mydeque.clear();
+  mydeque.push_back (1101);
+  mydeque.push_back (2202);
+
+  std::cout << "mydeque contains:";
+  for (TESTED_NAMESPACE::deque<int>::iterator it = mydeque.begin(); it!=mydeque.end(); ++it)
     std::cout << ' ' << *it;
   std::cout << '\n';
 

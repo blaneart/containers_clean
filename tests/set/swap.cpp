@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   swap_overload.cpp                                  :+:      :+:    :+:   */
+/*   swap.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:31:52 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:44:53 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 16:13:12 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 16:13:32 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> foo (3,100);   // three ints with a value of 100
-  TESTED_NAMESPACE::vector<int> bar (5,200);   // five ints with a value of 200
+  int myints[]={12,75,10,32,20,25};
+  TESTED_NAMESPACE::set<int> first (myints,myints+3);     // 10,12,75
+  TESTED_NAMESPACE::set<int> second (myints+3,myints+6);  // 20,25,32
 
-  foo.swap(bar);
+  first.swap(second);
 
-  std::cout << "foo contains:";
-  for (TESTED_NAMESPACE::vector<int>::iterator it = foo.begin(); it!=foo.end(); ++it)
+  std::cout << "first contains:";
+  for (TESTED_NAMESPACE::set<int>::iterator it=first.begin(); it!=first.end(); ++it)
     std::cout << ' ' << *it;
   std::cout << '\n';
 
-  std::cout << "bar contains:";
-  for (TESTED_NAMESPACE::vector<int>::iterator it = bar.begin(); it!=bar.end(); ++it)
+  std::cout << "second contains:";
+  for (TESTED_NAMESPACE::set<int>::iterator it=second.begin(); it!=second.end(); ++it)
     std::cout << ' ' << *it;
   std::cout << '\n';
 

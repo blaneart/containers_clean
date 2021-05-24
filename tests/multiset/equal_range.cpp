@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   equal_range.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 17:31:15 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 17:31:30 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../common.hpp"
 
+typedef TESTED_NAMESPACE::multiset<int>::iterator It;  // aliasing the iterator type used
+
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  int myints[]= {77,30,16,2,30,30};
+  TESTED_NAMESPACE::multiset<int> mymultiset (myints, myints+6);  // 2 16 30 30 30 77
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  TESTED_NAMESPACE::pair<It,It> ret = mymultiset.equal_range(30); //      ^        ^
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
+  mymultiset.erase(ret.first,ret.second);
 
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
+  std::cout << "mymultiset contains:";
+  for (It it=mymultiset.begin(); it!=mymultiset.end(); ++it)
+    std::cout << ' ' << *it;
   std::cout << '\n';
 
   return 0;

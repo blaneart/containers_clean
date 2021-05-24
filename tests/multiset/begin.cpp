@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   begin.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 17:14:41 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 17:14:55 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,15 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  int myints[] = {42,71,71,71,12};
+  TESTED_NAMESPACE::multiset<int> mymultiset (myints,myints+5);
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  TESTED_NAMESPACE::multiset<int>::iterator it;
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
+  std::cout << "mymultiset contains:";
+  for (TESTED_NAMESPACE::multiset<int>::iterator it=mymultiset.begin(); it!=mymultiset.end(); ++it)
+    std::cout << ' ' << *it;
 
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
   std::cout << '\n';
 
   return 0;

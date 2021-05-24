@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   top.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 14:30:33 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 14:30:45 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,14 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  TESTED_NAMESPACE::stack<int> mystack;
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  mystack.push(10);
+  mystack.push(20);
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
+  mystack.top() -= 5;
 
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
+  std::cout << "mystack.top() is now " << mystack.top() << '\n';
 
   return 0;
 }

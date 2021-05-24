@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   size.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 14:54:40 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 14:54:55 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  TESTED_NAMESPACE::deque<int> myints;
+  std::cout << "0. size: " << myints.size() << '\n';
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  for (int i=0; i<5; i++) myints.push_back(i);
+  std::cout << "1. size: " << myints.size() << '\n';
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
+  myints.insert (myints.begin(),5,100);
+  std::cout << "2. size: " << myints.size() << '\n';
 
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
-  std::cout << '\n';
+  myints.pop_back();
+  std::cout << "3. size: " << myints.size() << '\n';
 
   return 0;
 }

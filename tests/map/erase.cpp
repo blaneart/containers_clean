@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/23 18:48:07 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/23 18:48:52 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/24 18:47:46 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int main ()
 {
   TESTED_NAMESPACE::map<char,int> mymap;
-  TESTED_NAMESPACEc::map<char,int>::iterator it;
+  TESTED_NAMESPACE::map<char,int>::iterator it;
 
   // insert some values:
   mymap['a']=10;

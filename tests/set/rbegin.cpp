@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resize.cpp                                         :+:      :+:    :+:   */
+/*   rbegin.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/23 18:15:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:49:50 by ablanar          ###   ########.fr       */
+/*   Created: 2021/05/24 16:07:22 by ablanar           #+#    #+#             */
+/*   Updated: 2021/05/24 16:07:41 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,15 @@
 
 int main ()
 {
-  TESTED_NAMESPACE::vector<int> myvector;
+  int myints[] = {21,64,17,78,49};
+  TESTED_NAMESPACE::set<int> myset (myints,myints+5);
 
-  // set some initial content:
-  for (int i=1;i<10;i++) myvector.push_back(i);
+  TESTED_NAMESPACE::set<int>::reverse_iterator rit;
 
-  myvector.resize(5);
-  myvector.resize(8,100);
-  myvector.resize(12);
+  std::cout << "myset contains:";
+  for (rit=myset.rbegin(); rit != myset.rend(); ++rit)
+    std::cout << ' ' << *rit;
 
-  std::cout << "myvector contains:";
-  for (size_t i=0;i<myvector.size();i++)
-    std::cout << ' ' << myvector[i];
   std::cout << '\n';
 
   return 0;
