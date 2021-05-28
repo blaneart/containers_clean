@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 17:17:36 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 17:30:07 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/28 16:21:40 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,89 +17,6 @@
 
 namespace ft
 {
-	// template <bool, class IsTrue = void>
-	// struct enable_if;
-	//
-	// template <class IsTrue>
-	// struct enable_if<true, IsTrue> {
-	// 	typedef IsTrue type;
-	// };
-	//
-	// template <bool flag, class IsTrue, class IsFalse>
-	// struct choose;
-	//
-	// template <class IsTrue, class IsFalse>
-	// struct choose<true, IsTrue, IsFalse> {
-	//    typedef IsTrue type;
-	// };
-	//
-	// template <class IsTrue, class IsFalse>
-	// struct choose<false, IsTrue, IsFalse> {
-	//    typedef IsFalse type;
-	// };
-
-	// template <class Key, class T>
-	// struct pair
-	// {
-	// 	Key	first;
-	// 	T	second;
-	//
-	// 	typedef	Key				first_type;
-	// 	typedef T				second_type;
-	// 	pair():
-	// 	first(), second()
-	// 	{}
-	// 	template<class U, class V>
-	// 	pair(const pair<U,V>& pr):
-	// 	first(pr.first), second(pr.second)
-	// 	{}
-	// 	pair (const first_type& a, const second_type& b):
-	// 	first(a), second(b)
-	// 	{}
-	// 	pair& operator=(const pair& pr)
-	// 	{
-	// 		this->first = pr.first;
-	// 		this->second = pr.second;
-	// 		return *this;
-	// 	}
-	// };
-
-	//Relational operators
-	// template <class T1, class T2>
-	// bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return lhs.first==rhs.first && lhs.second==rhs.second;
-	// }
-	// template <class T1, class T2>
-	// bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return !(lhs==rhs);
-	// }
-	// template <class T1, class T2>
-	// bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
-	// }
-	// template <class T1, class T2>
-	// bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return !(rhs<lhs);
-	// }
-	// template <class T1, class T2>
-	// bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return rhs<lhs;
-	// }
-	// template <class T1, class T2>
-	// bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return !(lhs<rhs);
-	// }
-	// template <class T1, class T2>
-	// pair<T1,T2> make_pair(T1 x, T2 y)
-	// {
-	// 		return pair<T1,T2>(x, y);
-	// }
 
 	//Nodes
 	template <class T, class NodeType, bool is_const = false >
@@ -254,27 +171,10 @@ namespace ft
 			friend class multiset;
 			template <class, class, bool>
 			friend class multiSetIterator;
-			// template <class U, class V>
-			// friend bool operator!= (const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs);
-			// template <class U, class V>
-			// friend bool operator!= (const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs);
-			// template <class U, class V>
-			// friend bool operator== (const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs);
-			// template <class U, class C>
-			// friend class multiset;
+
 	};
 
-	// template <class U, class V, bool B>
-	// bool operator!=(const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs)
-	// {
-	// 	return lhs.current != rhs.current && lhs.prev != rhs.prev;
-	// }
-	//
-	// template <class U, class V, bool>
-	// bool operator==(const multiSetIterator<U,V>& lhs, const multiSetIterator<U,V>& rhs)
-	// {
-	// 	return lhs.current == rhs.current && lhs.prev == rhs.prev;
-	// }
+
 
 	template <class Iterator>
 	class ReverseMultiSetIterator
@@ -811,7 +711,7 @@ namespace ft
 						c++;
 				return c;
 			}
-			
+
 			void swap (multiset& x)
 			{
 				Node *buf;

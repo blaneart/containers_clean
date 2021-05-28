@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/11 12:00:51 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/23 18:02:30 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/28 16:20:18 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define VECTOR_HPP
 #include "utility.hpp"
 #include <iostream>
-# include <sstream> // ostring
+# include <sstream>
+
 namespace ft
 {
 
@@ -141,30 +142,6 @@ namespace ft
 			return tmp += value;
 		}
 
-		// bool operator==(const vectorIterator &rhs)
-		// {
-		// 	return _array == rhs._array;
-		// }
-		// bool operator!=(const vectorIterator &rhs)
-		// {
-		// 	return _array != rhs._array;
-		// }
-		// bool operator<(const vectorIterator &rhs)
-		// {
-		// 	return _array < rhs._array;
-		// }
-		// bool operator<=(const vectorIterator &rhs)
-		// {
-		// 	return _array <= rhs._array;
-		// }
-		// bool operator>(const vectorIterator &rhs)
-		// {
-		// 	return _array > rhs._array;
-		// }
-		// bool operator>=(const vectorIterator &rhs)
-		// {
-		// 	return _array >= rhs._array;
-		// }
 		template <class, bool>
 		friend class vectorIterator;
 		template <class, class>
@@ -310,37 +287,6 @@ namespace ft
 		{
 			return rev_it + n;
 		}
-
-		// friend reverseVectorIterator operator+(difference_type value, const reverseVectorIterator &x)
-		// {
-		// 	reverseVectorIterator tmp(x);
-		// 	return tmp += value;
-		// }
-
-		// bool operator==(const reverseVectorIterator &rhs)
-		// {
-		// 	return _base == rhs._base;
-		// }
-		// bool operator!=(const reverseVectorIterator &rhs)
-		// {
-		// 	return _base != rhs._base;
-		// }
-		// bool operator<(const reverseVectorIterator &rhs)
-		// {
-		// 	return _base < rhs._base;
-		// }
-		// bool operator<=(const reverseVectorIterator &rhs)
-		// {
-		// 	return _base <= rhs._base;
-		// }
-		// bool operator>(const reverseVectorIterator &rhs)
-		// {
-		// 	return _base > rhs._base;
-		// }
-		// bool operator>=(const reverseVectorIterator &rhs)
-		// {
-		// 	return _base >= rhs._base;
-		// }
 
 		template <class>
 		friend class reverseVectorIterator;

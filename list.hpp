@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 18:35:11 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:31:15 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/28 16:54:58 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,6 @@
 namespace ft
 {
 
-	// template <bool, class IsTrue = void>
-	// struct enable_if;
-	//
-	// template <class IsTrue>
-	// struct enable_if<true, IsTrue> {
-	// 	typedef IsTrue type;
-	// };
-	//
-	// template <bool flag, class IsTrue, class IsFalse>
-	// struct choose;
-	//
-	// template <class IsTrue, class IsFalse>
-	// struct choose<true, IsTrue, IsFalse> {
-	//    typedef IsTrue type;
-	// };
-	//
-	// template <class IsTrue, class IsFalse>
-	// struct choose<false, IsTrue, IsFalse> {
-	//    typedef IsFalse type;
-	// };
 	// list node
 	template <typename T>
 	struct listNode
@@ -164,10 +144,6 @@ namespace ft
 			listIterator operator--(int)
 			{
 				listIterator cpy = *this;
-				// --(*this);
-				// --_pos;
-				// --_prev;
-				// std::cout << !_po`s << std::endl;
 				if (!_pos)
 				{
 					_pos = _prev;
@@ -200,21 +176,10 @@ namespace ft
 			friend class listIterator;
 			template <class, class>
 			friend class list;
-			// template <typename E>
-			// friend class list;
-			// template <typename U,bool E>
-			// friend bool operator==(const listIterator<U, E>& lhs, const listIterator<U, E>& rhs);
-			// template <typename U,bool E>
-			// friend bool operator!=(const listIterator<U, E>& lhs, const listIterator<U, E>& rhs);
+
 	};
-	// template <typename U,bool E>
-	// bool operator==(const listIterator<U, E>& lhs, const listIterator<U, E>& rhs)	{
-	// return lhs._pos == rhs._pos;
-// }
-	// template <typename U,bool E>
-// 	bool operator!=(const listIterator<U, E>& lhs, const listIterator<U, E>& rhs)	{
-// 	return lhs._pos != rhs._pos;
-// }
+
+
 	template <class listIterator, class Distance>
 	void advance (listIterator& it, Distance n)
 	{
@@ -336,7 +301,7 @@ namespace ft
 
 		template <class InputIterator>
 		explicit list(InputIterator first, InputIterator last,
-			typename std::enable_if<!std::is_integral<InputIterator>::value>::type * = 0) :
+			typename ft::enable_if<!std::is_integral<InputIterator>::value>::type * = 0) :
 			_head(NULL), _tail(NULL), _size(0)
 		{
 			insert(begin(), first, last);
@@ -460,7 +425,6 @@ namespace ft
 		{
 			listNode<T> *n = new listNode<T>(val);
 
-			// std::cout << "val" <<  val << std::endl;
 			if (position._pos)
 			{
 
@@ -469,7 +433,6 @@ namespace ft
 					_head = n;
 				else
 				{
-					// std::cout << "here"  << position._prev->data<< std::endl;
 					position._pos->prev->next = n;
 					n->prev = position._prev;
 				}
@@ -488,9 +451,7 @@ namespace ft
 			}
 			_size++;
 			position._prev = n;
-			// if (position._pos)
-			// 	position._pos->prev = n;
-			// std::cout <<"d " <<  n->data << std::endl;
+
 			return iterator(n, n->prev);
 		}
 
@@ -498,8 +459,7 @@ namespace ft
 		void insert (iterator position, typename ft::enable_if<!std::numeric_limits<InputIterator>::is_integer, InputIterator>::type first, InputIterator last)
 		{
 			iterator buf;
-			// if (position._prev)
-				// std::cout << "pos:" << position._prev->data << std::endl;
+
 			for (InputIterator it = first; it != last; ++it)
 			{
 				buf = insert(position, *it);
@@ -520,7 +480,6 @@ namespace ft
 
 		iterator erase(iterator position)
 		{
-		// return (this->erase(position++, position));
 			listNode<T> *next;
 
 			next = position._pos->next;
@@ -540,20 +499,6 @@ namespace ft
 
 		iterator erase(iterator first, iterator last)
 		{
-			// listNode<T> *last_del = last._pos;
-			// listNode<T> *before_del = first._pos->prev;
-			//
-			// std::cout << *first << std::endl;
-			// std::cout << *last << std::endl;
-			// before_del->next = last_del;
-			// last_del->prev = before_del;
-			// while (first != last)
-			// {
-			// 	std::cout << "jere" << std::endl;
-			// 	--_size;
-			// 	delete (first++)._pos;
-			// }
-			// return last;
 			iterator it = first;
 			while(it != last)
 				it = erase(it);
@@ -798,22 +743,6 @@ namespace ft
 					erase(first--);
 				tmp = first++;
 			}
-			// for (iterator it = begin(); it != end(); it++)
-			// {
-			// 	it2 = it;
-			// 	if (it2 != end())
-			// 		it2++;
-			// 	for (; it2 != end(); it2++)
-			// 	{
-			// 		if (binary_pred(*it, *it2))
-			// 		{
-			// 			erase(it2);
-			// 			it2 = it;
-			// 			if (it2._pos->next)
-			// 				it2++;
-			// 		}
-			// 	}
-			// }
 		}
 
 		void merge (list<T>& x)
@@ -846,18 +775,6 @@ namespace ft
 			}
 			if (!x.empty())
 				this->splice(this->end(), x);
-
-
-			// if (this == &x)
-			// 	return ;
-			// _tail->next = x._head;
-			// x._head->prev = _tail;
-			// _tail = x._tail;
-			// _size += x._size;
-			// sort(comp);
-			// x._head = NULL;
-			// x._tail = NULL;
-			// x._size = 0;
 		}
 
 		void sort()
@@ -883,10 +800,9 @@ namespace ft
 		        current->next = temp;
 		        current = current->prev;
 		    }
-
 		    /* Before changing the head, check for the cases like empty
 		        list and list with only one node */
-		    if(temp != NULL )
+		    if ( temp != NULL )
 		        _head = temp->prev;
 		}
 	private:
@@ -1022,34 +938,9 @@ namespace ft
 			position->prev = position->next = 0;
 		}
 	};
-	// template <class Ite1, class Ite2>
-	// bool equal (Ite1 first, Ite1 last, Ite2 first2)
-	// {
-	// 	while (first != last)
-	// 	{
-	// 		if (*first != *first2)
-	// 			return false;
-	// 		++first;
-	// 		++first2;
-	// 	}
-	// 	return true;
-	// }
-	//
-	// template <class Ite1, class Ite2>
-	// bool lexicographical_compare(Ite1 first1, Ite1 last1, Ite2 first2, Ite2 last2)
-	// {
-	// 	while (first1 != last1 && first2 != last2 && *first1 == *first2)
-	// 	{
-	// 		++first1; ++first2;
-	// 	}
-	// 	if (first1 == last1)
-	// 		return (first2 != last2);
-	// 	else if (first2 == last2)
-	// 		return (false);
-	// 	return (*first1 < *first2);
-	// }
+
 	template <class T, class Alloc>
-	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+	bool operator== (const list<T,Alloc>& lhs, const list<T ,Alloc>& rhs)
 	{
 		if (lhs.size() != rhs.size())
 		  	return false;
@@ -1080,7 +971,6 @@ namespace ft
 	{
 		return !(lhs < rhs);
 	}
-
 	  template <class T, class Alloc>
 		void	swap(list<T, Alloc> &x, list<T, Alloc> &y) { x.swap(y); }
 }

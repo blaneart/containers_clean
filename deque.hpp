@@ -9,34 +9,12 @@
 #include <exception>
 #include <stdexcept>
 #include "utility.hpp"
-// #include "../Map.hpp"
+
 //array of arrays https://stackoverflow.com/questions/6292332/what-really-is-a-deque-in-stl
 // https://stackoverflow.com/questions/43221070/is-it-possible-to-set-the-size-of-the-inner-array-of-a-stldeque buf size
 
 namespace ft
 {
-
-	//
-	// template <bool, class IsTrue = void>
-	// struct enable_if;
-	//
-	// template <class IsTrue>
-	// struct enable_if<true, IsTrue> {
-	// 	typedef IsTrue type;
-	// };
-	//
-	// template <bool flag, class IsTrue, class IsFalse>
-	// struct choose;
-	//
-	// template <class IsTrue, class IsFalse>
-	// struct choose<true, IsTrue, IsFalse> {
-	//    typedef IsTrue type;
-	// };
-	//
-	// template <class IsTrue, class IsFalse>
-	// struct choose<false, IsTrue, IsFalse> {
-	//    typedef IsFalse type;
-	// };
 
 	template <class T, bool is_const = false >
 	class DequeIterator
@@ -143,14 +121,10 @@ namespace ft
 
 			DequeIterator &operator+ (difference_type n)
 			{
-				// std::cout << "here23" << std::endl;
-				// std::cout << "current:" << current << "n:" << n << std::endl;
-
 				if (current + n > reserved_size_ - 1 && first != 0)
 					current = current + n - reserved_size_;
 				else
 					current = current + n;
-				// std::cout << "current:" << current << "n:" << n << std::endl;
 				return *this;
 			}
 
@@ -176,7 +150,6 @@ namespace ft
 			friend DequeIterator operator+(difference_type value, const DequeIterator &x)
 			{
 				DequeIterator tmp(x);
-				// std::cout << "here2" << std::endl;
 				return tmp += value;
 			}
 
@@ -187,7 +160,6 @@ namespace ft
 
 			friend bool operator==(const DequeIterator &lhs, const DequeIterator &rhs)
 			{
-				// std::cout << lhs.current << "|" << rhs.current <<std::endl;
 				return ((lhs.current == rhs.current));
 			}
 			friend bool operator!=(const DequeIterator &lhs, const DequeIterator &rhs)
@@ -216,10 +188,7 @@ namespace ft
 			{
 				return !(lhs < rhs);
 			}
-			// template <class U>
-			// friend bool operator!=(const DequeIterator<U>& lhs, const DequeIterator<U> &rhs);
-			// template <class U>
-			// friend bool operator==(const DequeIterator<U>& lhs, const DequeIterator<U>& rhs);
+
 			template <class U>
 			friend ptrdiff_t operator-(const DequeIterator<U>& lhs, const DequeIterator<U>& rhs);
 			template <class U>
@@ -228,28 +197,9 @@ namespace ft
 			friend DequeIterator<U> &operator- (int n,DequeIterator<U>& lhs);
 			template <class U>
 			friend DequeIterator<U> &operator+ (int n, DequeIterator<U>& lhs);
-			// template <class U>
-			// friend bool operator<  (const DequeIterator<U>& lhs, const DequeIterator<U>& rhs);
-			// template <class U>
-			// friend bool operator<= (const DequeIterator<U>& lhs, const DequeIterator<U>& rhs);
-			// template <class U>
-			// friend bool operator>  (const DequeIterator<U>&lhs, const DequeIterator<U>& rhs);
-			// template <class U>
-			// friend bool operator>= (const DequeIterator<U>& lhs, const DequeIterator<U>& rhs);
+
 	};
 
-	// template <class U>
-	// bool operator!=(const DequeIterator<U>& lhs, const DequeIterator<U>& rhs)
-	// {
-	// 	return (!(lhs.current == rhs.current && lhs.array == rhs.array));
-	// }
-	//
-	//
-	// template <class U>
-	// bool operator==(const DequeIterator<U>& lhs, const DequeIterator<U>& rhs)
-	// {
-	// 	return ((lhs.current == rhs.current && lhs.array == rhs.array));
-	// }
 
 	template <class U>
 	ptrdiff_t operator-(const DequeIterator<U>& lhs, const DequeIterator<U>& rhs)
@@ -282,31 +232,6 @@ namespace ft
 			lhs.current = lhs.current - n;
 		return lhs;
 	}
-	//
-	// template <class U>
-	// bool operator<  (const DequeIterator<U>& lhs, const DequeIterator<U>& rhs)
-	// {
-	// 	if (lhs.array == rhs.array)
-	// 		return (lhs.current < rhs.current);
-	// 	else
-	// 	  return (&lhs.array[lhs.current] < &rhs.array[rhs.current]);
-	// }
-	//
-	// template <class U>
-	// bool operator<= (const DequeIterator<U>& lhs, const DequeIterator<U>& rhs)
-	// {
-	// 	if (lhs.array == rhs.array)
-	// 		return (lhs.current <= rhs.current);
-	// 	else
-	// 		return (&lhs.array[lhs.current] <= &rhs.array[rhs.current]);
-	// }
-	//
-	// template <class U>
-	// bool operator>  (const DequeIterator<U>&lhs, const DequeIterator<U>& rhs)
-	// {
-	// 	return !(lhs <= rhs);
-	// }
-
 	template <class U>
 	bool operator>= (const DequeIterator<U>& lhs, const DequeIterator<U>& rhs)
 	{
@@ -464,165 +389,8 @@ namespace ft
 			return lhs._base <= rhs._base;
 		}
 
-		// ReverseDequeIterator():
-		// 	iterator()
-		// {}
-		// ReverseDequeIterator(const DequeIterator<T> &it):
-		// 	iterator(it)
-		// {}
-		// ReverseDequeIterator(const ReverseDequeIterator<T> &it):
-		// 	iterator(it.iterator)
-		// {}
-		// ~ReverseDequeIterator()
-		// {}
-		//
-		// ReverseDequeIterator &operator=(const ReverseDequeIterator &it)
-		// {
-		// 	iterator = it.iterator;
-		// 	return *this;
-		// }
-		//
-		// ReverseDequeIterator<T> &operator++()
-		// {
-		// 	--iterator;
-		// 	return *this;
-		// }
-		//
-		// ReverseDequeIterator<T> operator++(int)
-		// {
-		// 	ReverseDequeIterator<T> copy(*this);
-		// 	--iterator;
-		// 	return copy;
-		// }
-		//
-		// 	ReverseDequeIterator<T> &operator+ (int n)
-		// 	{
-		// 		iterator = iterator - n;
-		// 		return *this;
-		// 	}
-		// 	ReverseDequeIterator<T> &operator--()
-		// 	{
-		// 		++iterator;
-		// 		return *this;
-		// 	}
-		//
-		// 	ReverseDequeIterator<T> operator--(int)
-		// 	{
-		// 		ReverseDequeIterator<T> copy(*this);
-		//
-		// 		++iterator;
-		// 		return copy;
-		// 	}
-		// 	ReverseDequeIterator<T> &operator- (int n)
-		// 	{
-		// 		iterator = iterator + n;
-		// 		return *this;
-		// 	}
-		//
-		// 	void operator+=(int n)
-		// 	{
-		// 		iterator -= n;
-		// 	}
-		//
-		// 	void operator-=(int n)
-		// 	{
-		// 		iterator += n;
-		// 	}
-		//
-		// 	T &operator*() const
-		// 	{
-		// 		return *iterator;
-		// 	}
-		//
-		// 	T operator[](int n)
-		// 	{
-		// 		return (iterator[n]);
-		// 	}
-		//
-		// 	template <class U>
-		// 	friend bool operator!=(const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U> &rhs);
-		// 	template <class U>
-		// 	friend ptrdiff_t operator-(const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs);
-		// 	template <class U>
-		// 	friend bool operator==(const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs);
-		// 	template <class U>
-		// 	friend ptrdiff_t operator+(const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs);
-		// 	template <class U>
-		// 	friend ReverseDequeIterator<U> &operator+ (int n, ReverseDequeIterator<U>& lhs);
-		// 	template <class U>
-		// 	friend ReverseDequeIterator<U> &operator- (int n, ReverseDequeIterator<U>& lhs);
-		// 	template <class U>
-		// 	friend bool operator<  (const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs);
-		// 	template <class U>
-		// 	friend bool operator<= (const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs);
-		// 	template <class U>
-		// 	friend bool operator>  (const ReverseDequeIterator<U>&lhs, const ReverseDequeIterator<U>& rhs);
-		// 	template <class U>
-		// 	friend bool operator>= (const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs);
 	};
 
-	// template <class U>
-	// bool operator!=(const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs)
-	// {
-	// 	return (lhs.iterator != rhs.iterator);
-	// }
-	//
-	// template <class U>
-	// ptrdiff_t operator-(const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs)
-	// {
-	// 	return (lhs.iterator - rhs.iterator);
-	// }
-	//
-	//
-	// template <class U>
-	// bool operator==(const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs)
-	// {
-	// 	return ((lhs.iterator == rhs.iterator));
-	// }
-	//
-	// template <class U>
-	// ptrdiff_t operator+(const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs)
-	// {
-	// 	return (&lhs.iterator + &rhs.iterator);
-	// }
-	//
-	// template <class U>
-	// ReverseDequeIterator<U> &operator+ (int n, ReverseDequeIterator<U>& lhs)
-	// {
-	// 	-n + lhs.iterator;
-	// 	return lhs;
-	// }
-	//
-	// template <class U>
-	// ReverseDequeIterator<U> &operator- (int n, ReverseDequeIterator<U>& lhs)
-	// {
-	// 	n + lhs.iterator;
-	// 	return lhs;
-	// }
-	//
-	// template <class U>
-	// bool operator<  (const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs)
-	// {
-	// 	return (lhs.iterator > rhs.iterator);
-	// }
-	//
-	// template <class U>
-	// bool operator<= (const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs)
-	// {
-	// 	return (lhs.iterator >= rhs.iterator);
-	// }
-	//
-	// template <class U>
-	// bool operator>  (const ReverseDequeIterator<U>&lhs, const ReverseDequeIterator<U>& rhs)
-	// {
-	// 	return !(lhs <= rhs);
-	// }
-	//
-	// template <class U>
-	// bool operator>= (const ReverseDequeIterator<U>& lhs, const ReverseDequeIterator<U>& rhs)
-	// {
-	// 	return !(lhs < rhs);
-	// }
 
 	template <class T, class Alloc = std::allocator<T> >
 	class deque
@@ -747,22 +515,6 @@ namespace ft
 					delete array;
 				array = NULL;
 			}
-
-			// deque(size_type n, const value_type& val = value_type())
-			// {
-			// 	reserved_size_ = DEQUE_SIZE;
-			// 	while (n > reserved_size_ )
-			// 		reserved_size_ = reserved_size_ * 2;
-			// 	T *arr = new T[reserved_size_];
-			// 	for (int i = 0; i < n; i++)
-			// 		arr[i] = val;
-			// 	for (int i = n; i < reserved_size_; i++)
-			// 		arr[i] = value_type();
-			// 	array = arr;
-			// 	first = 0;
-			// 	last = n - 1;
-			// 	size_ = n;
-			// }
 
 
 			deque& operator=(const deque& x)

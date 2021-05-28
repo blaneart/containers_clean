@@ -6,7 +6,7 @@
 /*   By: ablanar <ablanar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 16:38:53 by ablanar           #+#    #+#             */
-/*   Updated: 2021/05/24 18:56:02 by ablanar          ###   ########.fr       */
+/*   Updated: 2021/05/28 16:21:41 by ablanar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,111 +21,7 @@
 
 namespace ft
 {
-	// template <bool, class IsTrue = void>
-	// struct enable_if;
-	//
-	// template <class IsTrue>
-	// struct enable_if<true, IsTrue> {
-	// 	typedef IsTrue type;
-	// };
-	// //PAIR
-	// template <class Key, class T>
-	// struct pair
-	// {
-	// 	Key	first;
-	// 	T	second;
-	//
-	// 	typedef	Key				first_type;
-	// 	typedef T				second_type;
-	// 	pair():
-	// 	first(), second()
-	// 	{}
-	// 	template<class U, class V>
-	// 	pair(const pair<U,V>& pr):
-	// 	first(pr.first), second(pr.second)
-	// 	{}
-	// 	pair (const first_type& a, const second_type& b):
-	// 	first(a), second(b)
-	// 	{}
-	// 	pair& operator=(const pair& pr)
-	// 	{
-	// 		this->first = pr.first;
-	// 		this->second = pr.second;
-	// 		return *this;
-	// 	}
-	// };
 
-	//Relational operators
-	// template <class T1, class T2>
-	// bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return lhs.first==rhs.first && lhs.second==rhs.second;
-	// }
-	// template <class T1, class T2>
-	// bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return !(lhs==rhs);
-	// }
-	// template <class T1, class T2>
-	// bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second);
-	// }
-	// template <class T1, class T2>
-	// bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return !(rhs<lhs);
-	// }
-	// template <class T1, class T2>
-	// bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return rhs<lhs;
-	// }
-	// template <class T1, class T2>
-	// bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	// {
-	// 	return !(lhs<rhs);
-	// }
-	// template <class T1, class T2>
-	// pair<T1,T2> make_pair(T1 x, T2 y)
-	// {
-	// 		return pair<T1,T2>(x, y);
-	// }
-
-	//Node
-	//
-	// template <class value_type>
-	// struct Node
-	// {
-	// 	bool _unused;
-	// 	#if __APPLE__ == 0
-	// 		int _unused_for_linux;
-	// 	#endif
-	// 	value_type			e;
-	// 	Node				*right;
-	// 	Node				*left;
-	// 	Node				*parent;
-	// 	Node() :
-	// 	e(), right(NULL), left(NULL), parent(NULL)
-	// 	{}
-	// 	template <class U>
-	// 	Node(const U& pr = U()):
-	// 	e(pr), right(NULL), left(NULL), parent(NULL)
-	// 	{}
-	// };
-
-	// template <bool flag, class IsTrue, class IsFalse>
-	// struct choose;
-	//
-	// template <class IsTrue, class IsFalse>
-	// struct choose<true, IsTrue, IsFalse> {
-	//    typedef IsTrue type;
-	// };
-	//
-	// template <class IsTrue, class IsFalse>
-	// struct choose<false, IsTrue, IsFalse> {
-	//    typedef IsFalse type;
-	// };
 
 	template <class T, class Compare, bool is_const = false >
 	class multiMapIterator
@@ -272,10 +168,6 @@ namespace ft
 			{
 				return !(*this == rhs);
 			}
-			// template <class U, class V>
-			// friend bool operator!=(const multiMapIterator<U,V>& lhs, const multiMapIterator<U,V>& rhs);
-			// template <class U, class V>
-			// friend bool operator==(const multiMapIterator<U,V>& lhs, const multiMapIterator<U,V>& rhs);
 			template <class, class, class, class>
 			friend class multimap;
 			template <class, class, bool>
@@ -890,32 +782,6 @@ namespace ft
 			}
 	};
 
-	// template <class Ite1, class Ite2>
-	// bool equal (Ite1 first, Ite1 last, Ite2 first2)
-	// {
-	// 	while (first != last)
-	// 	{
-	// 		if (*first != *first2)
-	// 			return false;
-	// 		++first;
-	// 		++first2;
-	// 	}
-	// 	return true;
-	// }
-	//
-	// template <class Ite1, class Ite2>
-	// bool lexicographical_compare(Ite1 first1, Ite1 last1, Ite2 first2, Ite2 last2)
-	// {
-	// 	while (first1 != last1 && first2 != last2 && *first1 == *first2)
-	// 	{
-	// 		++first1; ++first2;
-	// 	}
-	// 	if (first1 == last1)
-	// 		return (first2 != last2);
-	// 	else if (first2 == last2)
-	// 		return (false);
-	// 	return (*first1 < *first2);
-	// }
 
 	template <class Key, class T, class Compare, class Alloc>
 	bool	operator==(const multimap<Key, T, Compare, Alloc> &lhs,
