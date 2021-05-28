@@ -2,6 +2,8 @@ CC="clang++"
 CFLAGS="-Wall -Wextra -Werror -std=c++98"
 srcs="tests"
 incl_path="./"
+verbose=1
+
 compile () {
 	# 1=file 2=define used {ft/std} 3=output_file
 	$CC $CFLAGS -o "$3"  -DTESTED_NAMESPACE=$2 $1
@@ -35,10 +37,23 @@ cmp_one () {
 	#
 	> $ft_txt; > $std_txt;
 	if [ $ft_ret -eq 0 ]; then
-		./$ft_bin &>$ft_txt; ft_ret=$?
+		if [ $verbose -eq 1 ]
+		then
+			echo "FT container output: "
+			./$ft_bin | tee $ft_txt; ft_ret=$?
+			echo "\n"
+		else
+			./$ft_bin &>$ft_txt; ft_ret=$?
+		fi
 	fi
 	if [ $std_ret -eq 0 ]; then
-		./$std_bin &>$std_txt; std_ret=$?
+		if [ $verbose -eq 1 ]
+		then
+			echo "STD container output: "
+			./$std_bin | tee $std_txt; std_ret=$?
+		else
+			./$std_bin &>$std_txt; std_ret=$?
+		fi
 	fi
 	same_bin=$(isEq $ft_ret $std_ret)
 
@@ -51,6 +66,15 @@ cmp_one () {
 
 	printRes "$container/$file" $same_compilation $same_bin $same_output $std_compile
 	rmdir deepthought &>/dev/null
+	echo "Press any key to continue"
+	while [ true ] ; do
+	read -n 1
+	if [ $? = 0 ] ; then
+    	break;
+	else
+		echo "waiting for the keypress"
+	fi
+	done
 }
 do_test () {
 	# 1=container_name
